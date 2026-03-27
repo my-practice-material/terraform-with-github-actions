@@ -1,4 +1,4 @@
-bucket         = "tf-state-123456789"
+bucket         = "tf-state-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
 key            = "terraform.tfstate"
-region         = "ap-south-1"
+region         = "us-east-1"
 dynamodb_table = "tf.lock"

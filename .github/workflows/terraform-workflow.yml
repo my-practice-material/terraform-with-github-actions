@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  Terraform-Init:
+  terraform-init:
     environment: dev
     runs-on: ubuntu-latest
     steps:
@@ -25,13 +25,10 @@ jobs:
         role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -backend-config=environments/dev/backend-dev-us-east-1.tfvars
 
     - name: Terraform Plan
       run: terraform plan
 
     - name: Terraform Validate
       run: terraform validate
-
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
