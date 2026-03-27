@@ -3,8 +3,12 @@ on:
   - workflow_dispatch
   - push
 permissions:
-  id-token: write
-  contents: read
+  id-token: write  # Allow GitHub Actions to request OIDC tokens
+  contents: write  # Allow GitHub Actions to read repository contents (e.g., for checkout)
+  pull-requests: write  # Allow GitHub Actions to manage pull requests (e.g., for commenting on PRs with Terraform plan results)
+  security-events: write  # Allow GitHub Actions to manage security events
+  actions: write  # Allow GitHub Actions to manage actions
+  checks: write  # Allow GitHub Actions to manage checks
 
 jobs:
   terraform-init:
