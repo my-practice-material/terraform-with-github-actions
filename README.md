@@ -1,9 +1,10 @@
 # github-actions-terraform
 GitHub Actions Workflow for Terraform Deployment.
 
-Terrafrom with AWS S3 to store tf.state file & AWS DynamoDB to store lock.
+Terraform with AWS S3 to store tf.state file & AWS DynamoDB to store lock.
 
-1. Create AWS DynamoDB table with name tf.lock with LockID (String) is Partition key.
+1. Create an AWS DynamoDB table named tf.lock with a partition key named LockID (String).
 2. Create AWS S3 bucket to use as Terraform backend to store tf.state file.
-3. Use and Code Repository to store terraform code.
-4. Create GitHub Actions workflow to deploy terraform.
+3. Use AWS CloudFormation template present at path `scripts/cloudformation.json` to create S3 bucket and DynamoDB table.
+4. Use a code repository to store terraform code.
+5. Create GitHub Actions workflow to deploy terraform.
