@@ -1,7 +1,6 @@
 name: Run Terraform
 on: 
   - workflow_dispatch
-  - push
 permissions:
   id-token: write  # Allow GitHub Actions to request OIDC tokens
   contents: write  # Allow GitHub Actions to read repository contents (e.g., for checkout)
