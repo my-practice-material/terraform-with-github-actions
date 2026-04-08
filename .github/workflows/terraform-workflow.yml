@@ -1,6 +1,12 @@
 name: Run Terraform
 on: 
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action to run (apply or destroy)'
+        required: true
+        default: 'apply'
+
 permissions:
   id-token: write  # Allow GitHub Actions to request OIDC tokens
   contents: write  # Allow GitHub Actions to read repository contents (e.g., for checkout)
@@ -31,7 +37,15 @@ jobs:
       run: terraform init -backend-config=environments/dev/backend-dev-us-east-1.tfvars
 
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan 
 
     - name: Terraform Validate
       run: terraform validate
+
+    - name: Terraform Apply or Destroy
+      run: |
+        if [ "${{ github.event.inputs.action }}" = "apply" ]; then
+          terraform apply -auto-approve tfplan
+        else
+          terraform destroy -auto-approve
+        fi

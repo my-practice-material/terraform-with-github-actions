@@ -1,1 +1,1 @@
-bucket_name      = "study-terraform-multiprovider"
+bucket_name = "study-terraform-with-github-actions"
