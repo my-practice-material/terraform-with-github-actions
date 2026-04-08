@@ -37,7 +37,7 @@ jobs:
       run: terraform init -backend-config=environments/dev/backend-dev-us-east-1.tfvars
 
     - name: Terraform Plan
-      run: terraform plan 
+      run: terraform plan -out=tfplan
 
     - name: Terraform Validate
       run: terraform validate
