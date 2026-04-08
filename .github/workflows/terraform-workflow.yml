@@ -1,4 +1,5 @@
 name: Run Terraform
+run-name: "🚀 Terraform Plan Apply Destroy • Branch: ${{ github.ref }} • Job #${{ github.run_number }}"
 on: 
   workflow_dispatch:
     inputs:
