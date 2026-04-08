@@ -1,0 +1,39 @@
+name: Run Terraform
+on: 
+  push:
+    branches:
+      - development
+permissions:
+  id-token: write  # Allow GitHub Actions to request OIDC tokens
+  contents: write  # Allow GitHub Actions to read repository contents (e.g., for checkout)
+  pull-requests: write  # Allow GitHub Actions to manage pull requests (e.g., for commenting on PRs with Terraform plan results)
+  security-events: write  # Allow GitHub Actions to manage security events
+  actions: write  # Allow GitHub Actions to manage actions
+  checks: write  # Allow GitHub Actions to manage checks
+
+jobs:
+  terraform-init:
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        audience: sts.amazonaws.com
+        aws-region: ap-south-1
+        role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+
+    - name: Terraform Init
+      run: terraform init -backend-config=environments/dev/backend-dev-us-east-1.tfvars
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan -var-file=environments/dev/dev-us-east-1.tfvars
+
+    - name: Terraform Validate
+      run: terraform validate
