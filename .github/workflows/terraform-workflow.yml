@@ -40,7 +40,7 @@ jobs:
       run: terraform plan -out=tfplan -var-file=environments/dev/dev-us-east-1.tfvars
 
     - name: Terraform Validate
-      run: terraform validate -var-file=environments/dev/dev-us-east-1.tfvars
+      run: terraform validate
 
     - name: Terraform Apply or Destroy
       run: |
