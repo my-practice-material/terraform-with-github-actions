@@ -1,1 +1,1 @@
-bucket_name = "study-terraform-with-github-actions"
+bucket_name = "study-terraform-with-github-actions-${data.aws_caller_identity.current.account_id}"
