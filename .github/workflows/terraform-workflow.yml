@@ -3,10 +3,21 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: 'Terraform action to run (apply or destroy)'
+        description: 'Terraform action to run'
         required: true
         default: 'apply'
-
+        type: choice
+        options:
+          - apply
+          - destroy
+      environment:
+        description: 'Select environment to deploy'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
 permissions:
   id-token: write  # Allow GitHub Actions to request OIDC tokens
   contents: write  # Allow GitHub Actions to read repository contents (e.g., for checkout)
