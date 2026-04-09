@@ -1,4 +1,4 @@
-name: Run Terraform
+name: Terraform Plan
 run-name: "🚀 Terraform Plan • Branch: ${{ github.ref }} • Job #${{ github.run_number }}"
 on: 
   push:
