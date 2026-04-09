@@ -15,6 +15,9 @@ permissions:
   security-events: write  # Allow GitHub Actions to manage security events
   actions: write  # Allow GitHub Actions to manage actions
   checks: write  # Allow GitHub Actions to manage checks
+  
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   terraform-init:
