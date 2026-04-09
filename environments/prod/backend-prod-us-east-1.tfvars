@@ -1,4 +1,4 @@
-bucket         = "tf-state-123456789"
+bucket         = "tf-state-360496493654-us-east-1"
 key            = "terraform.tfstate"
-region         = "ap-south-1"
-dynamodb_table = "tf.lock"
+region         = "us-east-1"
+use_lockfile   = true

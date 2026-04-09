@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template to create S3 buckets and DynamoDB table for Terraform state locking.
+
+Resources:
+  TFStateBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "tf-state-${AWS::AccountId}-${AWS::Region}"
+
+  # Since Terraform 1.9.0, you can use `use_lockfile` instead of a DynamoDB table for state locking.
+  # TFLockDBTable:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: tf.lock
+  #     BillingMode: PAY_PER_REQUEST
+  #     AttributeDefinitions:
+  #       - AttributeName: LockID
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: LockID
+  #         KeyType: HASH
