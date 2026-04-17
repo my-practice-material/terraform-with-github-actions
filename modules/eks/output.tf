@@ -8,7 +8,7 @@ output "cluster_endpoint" {
   description = "Endpoint URL for the EKS cluster API server"
 }
 
-output "cluster_certificate_authority_data" {
+output "certificate_authority_data" {
   value = aws_eks_cluster.study-eks-cluster.certificate_authority[0].data
   description = "Base64 encoded certificate authority data for the EKS cluster"
 }
