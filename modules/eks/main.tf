@@ -52,17 +52,3 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.study-eks-cluster-role.name
 }
-
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.main.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.main.certificate_authority[0].data)
-  token                  = data.aws_eks_cluster_auth.main.token
-}
-
-data "aws_eks_cluster_auth" "main" {
-  name = aws_eks_cluster.study-eks-cluster.id
-}
-
-data "aws_eks_cluster" "main" {
-  name = aws_eks_cluster.study-eks-cluster.id
-}
