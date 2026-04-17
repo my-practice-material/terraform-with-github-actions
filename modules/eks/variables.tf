@@ -25,4 +25,8 @@ variable "tags" {
   }
 }
 
-variable "cluster_admin_role_arn" {}
+variable "cluster_admin_role_arn" {
+  type        = string
+  description = "ARN of the IAM Role to be used as cluster admin for EKS Cluster access"
+  default     = ""
+}
