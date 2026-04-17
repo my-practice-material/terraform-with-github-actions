@@ -1,8 +1,6 @@
 .terraform
 .terraform.lock.hcl
 .DS_Store
-modules/.DS_Store
-*.tfstate
 scripts/terraform.tfstate
 *.tfstate.backup
 tfplan
