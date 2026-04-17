@@ -54,11 +54,15 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
 }
 
 provider "kubernetes" {
-  host                   = aws_eks_cluster.study-eks-cluster.cluster_endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.study-eks-cluster.cluster_certificate_authority_data)
+  host                   = data.aws_eks_cluster.main.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.main.certificate_authority[0].data)
   token                  = data.aws_eks_cluster_auth.main.token
 }
 
 data "aws_eks_cluster_auth" "main" {
+  name = aws_eks_cluster.study-eks-cluster.id
+}
+
+data "aws_eks_cluster" "main" {
   name = aws_eks_cluster.study-eks-cluster.id
 }
