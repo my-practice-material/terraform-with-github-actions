@@ -1,6 +1,3 @@
-# Get current AWS account identity
-data "aws_caller_identity" "current" {}
-
 # Create S3 bucket with a unique name using the current AWS account ID
 module "create_s3_bucket" {
     source        = "./modules/s3"
