@@ -1,9 +1,18 @@
 # This file is used to define the input variables for the Terraform configuration.
 
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to assign to all resources."
+  default     = {
+    "environment" = "dev"
+    "owner"       = "waghangad"
+  } 
+}
+
 variable "bucket_name" {
   type        = string
   description = "AWS S3 Bucket Name."
-  default     = "study"
+  default     = "study-terraform-bucket"
 }
 
 variable "vpc_name" {
@@ -24,17 +33,17 @@ variable "azs" {
   default     = ["us-east-1a", "us-east-1b"]
 }
 
-variable "public_subnets" {
+variable "elb_public_subnets" {
   type        = list(string)
   description = "List of CIDR blocks for public subnets"
   default     = ["10.10.1.0/24", "10.10.2.0/24"]
 }
 
-variable "public_subnet_names" {
+variable "elb_public_subnets_names" {
   type        = list(string)
   description = "List of names for public subnets"
-  default     = ["study-vpc-pub-sbnt-az1", "study-vpc-pub-sbnt-az2"]
-  
+  default     = ["study-vpc-elb-pub-sbnt-az1", "study-vpc-elb-pub-sbnt-az2"]
+
 }
 
 variable "app_private_subnets" {
@@ -65,4 +74,27 @@ variable "cluster_name" {
   type        = string
   description = "Name of the EKS Cluster"
   default     = "study-eks-cluster" 
+}
+
+variable "worker_node_name" {
+  type        = string
+  description = "Name of node role"
+  default     = "eksWorkerNodeRole"
+}
+
+variable "node_group_desired_capacity" {
+  type        = number
+  description = "Desired capacity of Node Group ASG."
+  default     = 1
+}
+variable "node_group_max_size" {
+  type        = number
+  description = "Maximum size of Node Group ASG. Set to at least 1 greater than node_group_desired_capacity."
+  default     = 2
+}
+
+variable "node_group_min_size" {
+  type        = number
+  description = "Minimum size of Node Group ASG."
+  default     = 1
 }

@@ -9,3 +9,18 @@ variable "private_subnet_ids" {
   description = "List of IDs for private subnets to be used by the EKS Cluster"
   default     = []
 }
+
+variable "public_subnet_ids" {
+  type        = list(string)
+  description = "List of IDs for public subnets to be used by the EKS Cluster"
+  default     = []
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to assign to all resources in the EKS module."
+  default     = {
+    "environment" = "dev"
+    "owner"       = "Angad Wagh"
+  }
+}

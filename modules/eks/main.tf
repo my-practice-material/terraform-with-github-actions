@@ -3,13 +3,14 @@ resource "aws_eks_cluster" "study-eks-cluster" {
 
   access_config {
     authentication_mode = "API_AND_CONFIG_MAP"
+    bootstrap_cluster_creator_admin_permissions = true
   }
 
   role_arn = aws_iam_role.study-eks-cluster-role.arn
   version  = "1.35"
 
   vpc_config {
-    subnet_ids = var.private_subnet_ids
+    subnet_ids = var.public_subnet_ids
     endpoint_private_access = true
     endpoint_public_access  = true
   }
@@ -24,15 +25,12 @@ resource "aws_eks_cluster" "study-eks-cluster" {
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
   ]
 
-  tags = {
-    "name" = "study-eks-cluster"
-    "environment" = "dev"
-    "owner" = "waghangad"
-  }
+  tags = var.tags
 }
 
 resource "aws_iam_role" "study-eks-cluster-role" {
   name = "study-eks-cluster-role"
+  tags = var.tags
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

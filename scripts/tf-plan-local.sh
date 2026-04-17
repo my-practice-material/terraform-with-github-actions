@@ -24,3 +24,5 @@ cd ..
 terraform init -backend-config=environments/dev/backend-dev-us-east-1.tfvars
 # Generate the execution plan for Terraform, specifying the variable file for the development environment in US East 1 region.
 terraform plan -out=tfplan -var-file=environments/dev/dev-us-east-1.tfvars
+# Validate the Terraform configuration using the variable file for the development environment in US East 1 region.
+terraform validate 

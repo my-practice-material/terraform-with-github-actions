@@ -27,7 +27,7 @@ variable "public_subnets" {
 variable "public_subnet_names" {
   type        = list(string)
   description = "List of names for public subnets"
-  default     = ["my-vpc-pub-sbnt-az1", "my-vpc-pub-sbnt-az2"]
+  default     = ["study-vpc-elb-pub-sbnt-az1", "study-vpc-elb-pub-sbnt-az2"]
 }
 
 variable "private_subnets" {
