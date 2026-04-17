@@ -22,6 +22,7 @@ module "create_eks" {
     cluster_name = var.cluster_name
     private_subnet_ids = module.create_vpc.private_subnets
     public_subnet_ids = module.create_vpc.public_subnets
+    cluster_admin_role_arn = var.cluster_admin_role_arn
     tags = var.tags
 }
 
@@ -36,6 +37,5 @@ module "eks_self_managed_node_group" {
     node_group_desired_capacity = var.node_group_desired_capacity
     node_group_max_size = var.node_group_max_size
     node_group_min_size = var.node_group_min_size
-    cluster_admin_role = var.cluster_admin_role
     depends_on = [ module.create_eks ]
 }

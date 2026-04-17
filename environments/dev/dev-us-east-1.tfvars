@@ -24,4 +24,4 @@ worker_node_name = "study-eks-worker-node"
 node_group_desired_capacity = 2
 node_group_max_size = 3
 node_group_min_size = 1
-cluster_admin_role = "arn:aws:iam::360496493654:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess_c3baec8c61b153ee"
+cluster_admin_role_arn = "arn:aws:iam::360496493654:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess_c3baec8c61b153ee"
