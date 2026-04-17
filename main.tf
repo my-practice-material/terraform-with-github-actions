@@ -36,5 +36,6 @@ module "eks_self_managed_node_group" {
     node_group_desired_capacity = var.node_group_desired_capacity
     node_group_max_size = var.node_group_max_size
     node_group_min_size = var.node_group_min_size
+    cluster_admin_role = var.cluster_admin_role
     depends_on = [ module.create_eks ]
 }

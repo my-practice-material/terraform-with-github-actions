@@ -24,3 +24,9 @@ variable "tags" {
     "owner"       = "Angad Wagh"
   }
 }
+
+variable "cluster_admin_role" {
+  type        = string
+  description = "ARN of the IAM Role to be granted admin access to the EKS Cluster"
+  default     = "arn:aws:iam::123456789012:role/eks-cluster-admin"
+}
