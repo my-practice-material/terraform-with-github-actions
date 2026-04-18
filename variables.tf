@@ -5,7 +5,7 @@ variable "tags" {
   description = "A map of tags to assign to all resources."
   default     = {
     "environment" = "dev"
-    "owner"       = "waghangad"
+    "owner"       = "Angad Wagh"
   } 
 }
 
@@ -102,5 +102,5 @@ variable "node_group_min_size" {
 variable "cluster_admin_role_arn" {
   type        = string
   description = "ARN of the IAM Role to be used as EKS Cluster admin. This role will be granted the AmazonEKSClusterAdminPolicy managed policy and added to the aws-auth configmap for cluster admin access."
-  default     = "arn:aws:iam::360496493654:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess_c3baec8c61b153ee"
+  default     = "arn:aws:iam::360496493435:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess"
 }

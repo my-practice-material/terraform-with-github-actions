@@ -17,14 +17,11 @@ This repository demonstrates how to:
 - GitHub repository secrets set:
   - `GutHub Actions AWS OIDC Role` 
 
-## 📂 Terraform Modules
-
-
-## 📚 Modules
+## 📚 Terraform Modules
 
 | Module Name | Description | Documentation |
 |-------------|-------------|----------------|
-| VPC         | Creates VPC, Subnets, and Networking Resources | [modules/vpc/README.md](modules/vpc README.md) |
-| EKS         | Provisions an EKS cluster | [modules/eks/README.md](modules/eks/README.md) |
+| VPC         | Creates VPC, Subnets, and Networking Resources | [VPC Docs](modules/vpc/README.md) |
+| EKS         | Provisions an EKS cluster | [EKS Docs](modules/eks/README.md) |
 
 ---
