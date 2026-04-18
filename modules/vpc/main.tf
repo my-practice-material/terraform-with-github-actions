@@ -1,5 +1,4 @@
-# VPC Module
-
+# Create VPC with public and private subnets, seperate route tables for private subnets.
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "6.6.1"
@@ -15,3 +14,63 @@ module "vpc" {
   enable_dns_support = true   
 }
 
+# Create security group for VPC Interface Endpoints
+# module "vpc_endpoints_security_group" {
+#   source  = "terraform-aws-modules/security-group/aws"
+#   version = "4.0.0"
+#   name        = "vpc-endpoints-interface-sg"
+#   description = "Security group for VPC Interface Endpoints"
+#   vpc_id      = module.vpc.vpc_id
+
+#   ingress_with_cidr_blocks = [
+#     {
+#       from_port   = 443
+#       to_port     = 443
+#       protocol    = "tcp"
+#       cidr_blocks = "0.0.0.0/0"
+#     }
+#   ]
+#   egress_with_cidr_blocks = [
+#     {
+#       from_port   = 0
+#       to_port     = 0
+#       protocol    = "-1"
+#       cidr_blocks = "0.0.0.0/0"
+#     }
+#   ]
+# }
+
+# Create VPC Endpoints for ECR API, ECR DKR and S3
+# module "vpc_endpoints" {
+#   source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+#   version = "6.6.1"
+#   vpc_id = module.vpc.vpc_id
+#   endpoints = {
+#     ecr_api = {
+#         service = "ecr.api"
+#         service_type    = "Interface"
+#         subnet_ids        = [
+#           module.vpc.private_subnets[0], # us-east-1a
+#           module.vpc.private_subnets[1], # us-east-1b
+#         ]
+#         security_group_ids = [module.vpc_endpoints_security_group.security_group_id]
+#         tags            = { Name = "ecr-api-interface-endpoint" }
+#     },
+#     ecr_dkr = {
+#         service = "ecr.dkr"
+#         service_type    = "Interface"
+#         subnet_ids        = [
+#           module.vpc.private_subnets[0], # us-east-1a
+#           module.vpc.private_subnets[1], # us-east-1b
+#         ]
+#         security_group_ids = [module.vpc_endpoints_security_group.security_group_id]
+#         tags            = { Name = "ecr-dkr-interface-endpoint" }
+#     },
+#     s3 = {
+#         service = "s3"
+#         service_type    = "Gateway"
+#         route_table_ids = module.vpc.private_route_table_ids
+#         tags            = { Name = "s3-gateway-endpoint" }
+#     }
+#   } 
+# }
