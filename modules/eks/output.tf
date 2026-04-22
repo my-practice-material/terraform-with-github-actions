@@ -17,3 +17,8 @@ output "cluster_name" {
   value = aws_eks_cluster.study-eks-cluster.name
   description = "Name of the EKS cluster"
 }
+
+output "service_ipv4_cidr" {
+  value = aws_eks_cluster.study-eks-cluster.kubernetes_network_config[0].service_ipv4_cidr
+  description = "CIDR block for Kubernetes service IP addresses in the EKS cluster"
+}

@@ -17,14 +17,14 @@ module "create_vpc" {
 }
 
 # Create EKS cluster using the private subnets from the VPC module
-# module "create_eks" {
-#     source = "./modules/eks"
-#     cluster_name = var.cluster_name
-#     private_subnet_ids = module.create_vpc.private_subnets
-#     public_subnet_ids = module.create_vpc.public_subnets
-#     cluster_admin_role_arn = var.cluster_admin_role_arn
-#     tags = var.tags
-# }
+module "create_eks" {
+    source = "./modules/eks"
+    cluster_name = var.cluster_name
+    private_subnet_ids = module.create_vpc.private_subnets
+    public_subnet_ids = module.create_vpc.public_subnets
+    cluster_admin_role_arn = var.cluster_admin_role_arn
+    tags = var.tags
+}
 
 # module "eks_self_managed_node_group" {
 #     source = "./modules/eks/self-managed-node-group"
@@ -39,3 +39,20 @@ module "create_vpc" {
 #     node_group_min_size = var.node_group_min_size
 #     depends_on = [ module.create_eks ]
 # }
+
+module "eks_aws_managed_node_group" {
+    source = "./modules/eks/aws-managed-node-group"
+    vpc_id = module.create_vpc.vpc_id
+    worker_node_name = var.worker_node_name
+    private_subnet_ids = module.create_vpc.private_subnets
+    public_subnet_ids = module.create_vpc.public_subnets
+    cluster_security_group_id = module.create_eks.cluster_security_group_id
+    cluster_name = var.cluster_name
+    node_group_desired_capacity = var.node_group_desired_capacity
+    node_group_max_size = var.node_group_max_size
+    node_group_min_size = var.node_group_min_size
+    depends_on = [ module.create_eks ]
+    certificate_authority_data = module.create_eks.certificate_authority_data
+    cluster_endpoint = module.create_eks.cluster_endpoint
+    service_ipv4_cidr = module.create_eks.service_ipv4_cidr
+}
