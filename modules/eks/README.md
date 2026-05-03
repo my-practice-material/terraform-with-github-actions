@@ -4,7 +4,7 @@ This module provides multiple compute options for running workloads on Amazon EK
 
 ## 🚀 Supported Compute Options
 
-### 1. Self-managed Node Group
+### 1. Self-managed Node Group - AL2
 EC2 Auto Scaling Group managed by Terraform.
 
 **Pros**
@@ -20,9 +20,10 @@ EC2 Auto Scaling Group managed by Terraform.
 - Requires careful maintenance of AMIs and bootstrap scripts.
 - No automatic upgrades from EKS.
 
+[Read more ...](modules/eks/self-managed-node-group/README.md)
 ---
 
-### 2. AWS-managed Node Group
+### 2. AWS-managed Node Group - AL2023
 Native EKS managed node groups.
 
 **Pros**
@@ -40,7 +41,7 @@ Native EKS managed node groups.
 
 ---
 
-### 3. Fargate
+### 3. Fargate-Profile.
 Serverless compute for pods.
 
 **Pros**
@@ -76,7 +77,7 @@ Open-source node provisioning solution.
 
 ---
 
-### 5. AWS EKS Auto Mode
+### 5. AWS EKS Auto Mode - Bottlerocket
 A fully managed compute option where AWS automatically provisions and manages nodes for your cluster.
 
 **Pros**
@@ -139,10 +140,14 @@ module "create_eks" {
 }
 ```
 
-## 📚 Terraform EKS Sub-Modules.
+## 📚 Terraform EKS Sub Modules.
 
 | Module Name | Description | Documentation |
 |-------------|-------------|----------------|
-| self-managed-node-group         | Creates EKS Self Managed Node Groups | [self-managed-node-group](modules/vpc/README.md) |
-| aws-managed-node-group         | Create EKS AWS Managed Node Groups | [aws-managed-node-group](modules/eks/aws-managed-node-group/README.md) |
-| fargate-profile         | Create EKS Fargate Profile | [fargate-profile] (modules/eks/fargate-profile/README.md) |
+| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group](modules/eks/self-managed-node-group/README.md) |
+| aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [aws-managed-node-group](modules/eks/aws-managed-node-group/README.md) |
+| fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](modules/eks/fargate-profile/README.md) |
+| karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](modules/eks/karpenter-controller/README.md) |
+| karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group](modules/eks/karpenter-node-group/README.md) |
+| karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool](modules/eks/karpenter-node-pool/README.md) |
+| aws-managed-node-group-br         | Create EKS Managed Node Group with Amazon Bottlerocket. | [aws-managed-node-group-br](modules/eks/aws-managed-node-group-br/README.md) |
