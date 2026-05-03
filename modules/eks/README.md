@@ -1,99 +1,16 @@
-# Terraform EKS Compute Options Module
+# Terraform EKS Cluster Module
 
-This module provides multiple compute options for running workloads on Amazon EKS. It is designed to be flexible so you can choose the right node type for your cluster depending on your use case.
+This module help you to create AWS EKS Cluster with Standard Mode.
 
-## 🚀 Supported Compute Options
+## 🚀 AWS EKS Cluster Options.
 
-### 1. Self-managed Node Group - AL2
-EC2 Auto Scaling Group managed by Terraform.
+| Mode            | Who Manages Nodes | Best Use Case                  | Pros                                | Cons                          |
+|-----------------|------------------|--------------------------------|-------------------------------------|-------------------------------|
+| **Standard**    | You              | Enterprises, custom workloads  | Full control, flexible               | Manual scaling & patching     |
+| **Auto**        | AWS              | Production workloads, startups | Fully managed, autoscaling, secure   | Less customization            |
+| **Fargate**     | AWS (serverless) | Stateless, event‑driven apps   | No node mgmt, pod‑level scaling      | Limited workloads, higher cost|
+| **Anywhere**    | You (on‑prem)    | Hybrid, compliance workloads   | On‑prem control with AWS tooling     | Infra setup required          |
 
-**Pros**
-- Full control over AMI, bootstrap scripts, and scaling policies.
-- Can customize OS, networking, and security settings.
-- Useful for advanced scenarios (custom kernels, GPU drivers, etc.).
-
-**Cons**
-- You manage lifecycle (updates, draining, scaling).
-- More operational overhead compared to managed node groups.
-
-**Limitations**
-- Requires careful maintenance of AMIs and bootstrap scripts.
-- No automatic upgrades from EKS.
-
-[Read more ...](modules/eks/self-managed-node-group/README.md)
----
-
-### 2. AWS-managed Node Group - AL2023
-Native EKS managed node groups.
-
-**Pros**
-- Simplified lifecycle management (updates, scaling, draining handled by EKS).
-- Integrated with EKS console and APIs.
-- Easier to operate for most workloads.
-
-**Cons**
-- Less flexibility (limited AMI customization).
-- Some advanced configurations not supported.
-
-**Limitations**
-- Bound to AWS’s supported AMIs and upgrade process.
-- Cannot fully control bootstrap sequence.
-
----
-
-### 3. Fargate-Profile.
-Serverless compute for pods.
-
-**Pros**
-- No EC2 nodes to manage.
-- Pay only for pod resources.
-- Ideal for small workloads, jobs, or environments where you don’t want to manage nodes.
-
-**Cons**
-- Limited pod configuration (no DaemonSets, not supporting EBS & EFS, privileged pods).
-- Higher cost for long-running workloads compared to EC2.
-
-**Limitations**
-- Not suitable for workloads needing GPUs, custom networking, or host-level access.
-- Only supports certain namespaces and pod specs.
-
----
-
-### 4. Karpenter
-Open-source node provisioning solution.
-
-**Pros**
-- Fast, flexible, and cost-efficient scaling.
-- Can launch diverse instance types based on workload demand.
-- Reduces over-provisioning and idle capacity.
-
-**Cons**
-- Requires additional setup and controller management.
-- Still evolving; may need tuning for stability.
-
-**Limitations**
-- Needs IAM roles and permissions configured correctly.
-- Not a fully managed AWS service (community-driven).
-
----
-
-### 5. AWS EKS Auto Mode - Bottlerocket
-A fully managed compute option where AWS automatically provisions and manages nodes for your cluster.
-
-**Pros**
-- Zero infrastructure management — AWS handles node provisioning, scaling, and lifecycle.
-- Simplifies cluster operations significantly.
-- Ideal for teams that want to focus purely on workloads without managing nodes.
-
-**Cons**
-- Less flexibility in choosing instance types or customizing node configurations.
-- May not support specialized workloads (e.g., GPUs, custom AMIs).
-
-**Limitations**
-- Currently limited to certain regions and features.
-- Bound to AWS’s supported configurations; advanced customization is not 
-
----
 
 ## 🌐 Networking Considerations
 
@@ -140,7 +57,7 @@ module "create_eks" {
 }
 ```
 
-## 📚 Terraform EKS Sub Modules.
+## 📚 Terraform EKS Compute Options.
 
 | Module Name | Description | Documentation |
 |-------------|-------------|----------------|
