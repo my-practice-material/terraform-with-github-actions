@@ -61,10 +61,10 @@ module "create_eks" {
 
 | Module Name | Description | Documentation |
 |-------------|-------------|----------------|
-| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group](modules/eks/self-managed-node-group/README.md) |
-| aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [aws-managed-node-group](modules/eks/aws-managed-node-group/README.md) |
-| fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](modules/eks/fargate-profile/README.md) |
-| karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](modules/eks/karpenter-controller/README.md) |
-| karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group](modules/eks/karpenter-node-group/README.md) |
-| karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool](modules/eks/karpenter-node-pool/README.md) |
-| aws-managed-node-group-br         | Create EKS Managed Node Group with Amazon Bottlerocket. | [aws-managed-node-group-br](modules/eks/aws-managed-node-group-br/README.md) |
+| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group](self-managed-node-group/README.md) |
+| aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [aws-managed-node-group](aws-managed-node-group/README.md) |
+| fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](fargate-profile/README.md) |
+| karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](karpenter-controller/README.md) |
+| karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group](karpenter-node-group/README.md) |
+| karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool](karpenter-node-pool/README.md) |
+| aws-managed-node-group-br         | Create EKS Managed Node Group with Amazon Bottlerocket. | [aws-managed-node-group-br](aws-managed-node-group-br/README.md) |
