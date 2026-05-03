@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "assume_role_ec2" {
 
 # IAM role to assign to worker nodes
 resource "aws_iam_role" "node_instance_role" {
-  name               = "${var.worker_node_name}-role"
+  name               = "${var.karpenter_controller_node_name}-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_ec2.json
   path               = "/"
 }
@@ -38,18 +38,18 @@ resource "aws_iam_role_policy_attachment" "node_instance_role_SSMMIC" {
 
 # Instance profile to associate above role with worker nodes
 resource "aws_iam_instance_profile" "node_instance_profile" {
-  name = "NodeInstanceProfile"
+  name = "${var.karpenter_controller_node_name}-instance-profile"
   path = "/"
   role = aws_iam_role.node_instance_role.id
 }
 
 # Security group to apply to worker nodes
 resource "aws_security_group" "node_security_group" {
-  name        = "${var.worker_node_name}-security-group"
+  name        = "${var.karpenter_controller_node_name}-security-group"
   description = "Security group for all nodes in the cluster"
   vpc_id      = var.vpc_id
   tags = {
-    "Name" = "${var.worker_node_name}-security-group"
+    "Name" = "${var.karpenter_controller_node_name}-security-group"
   }
 }
 
@@ -106,7 +106,7 @@ resource "aws_vpc_security_group_ingress_rule" "cluster_control_plane_security_g
 }
 
 resource "aws_launch_template" "eks_node_group_launch_template" {
-  name = "${var.worker_node_name}-launch-template"
+  name = "${var.karpenter_controller_node_name}-launch-template"
   block_device_mappings {
     device_name = "/dev/xvda"
       ebs {
@@ -168,14 +168,14 @@ EOF
     resource_type = "instance"
 
     tags = {
-      Name = var.worker_node_name
+      Name = var.karpenter_controller_node_name
     }
   }
 }
 
-resource "aws_eks_node_group" "managed_node_group" {
+resource "aws_eks_node_group" "karpenter_controller_node_group" {
   cluster_name    = var.cluster_name
-  node_group_name = var.worker_node_name
+  node_group_name = var.karpenter_controller_node_name
   launch_template {
     id      = aws_launch_template.eks_node_group_launch_template.id
     version = "$Latest"
@@ -192,4 +192,62 @@ resource "aws_eks_node_group" "managed_node_group" {
   update_config {
     max_unavailable = 1
   }
+
+  taint {
+    key    = "karpenter.sh/controller"
+    value  = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size]
+  }
 }
+
+# resource "aws_eks_addon" "core_dns" {
+#   cluster_name = var.cluster_name
+#   addon_name   = "coredns"
+#   addon_version = var.coredns_addon_version
+#   configuration_values = jsonencode({
+#     tollerations = [
+#       {
+#         key = "karpenter.sh/controller"
+#         value = true
+#         effect = "NO_SCHEDULE"
+#       }
+#      ]
+#      affinity = {
+#         nodeAffinity = {
+#           requiredDuringSchedulingIgnoredDuringExecution = {
+#             nodeSelectorTerms = [
+#               {
+#                 matchExpressions = [
+#                   {
+#                     key = "eks.amazonaws.com/nodegroup"
+#                     operator = "In"
+#                     values = [var.worker_node_name]
+#                   }
+#                 ]
+#               }
+#             ]
+#           }
+#         }
+#      }
+#      podAntiAffinity = {
+#         requiredDuringSchedulingIgnoredDuringExecution = [
+#           {
+#             labelSelector = {
+#               matchExpressions = [
+#                 {
+#                   key = "app"
+#                   operator = "In"
+#                   values = ["coredns"]
+#                 }
+#               ]
+#             }
+#             topologyKey = "kubernetes.io/hostname"
+#           }
+#         ] 
+#      }
+#   })
+# }

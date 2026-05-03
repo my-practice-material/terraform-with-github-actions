@@ -137,14 +137,12 @@ module "create_eks" {
     private_subnet_ids = module.create_vpc.private_subnets
     public_subnet_ids = module.create_vpc.public_subnets
 }
+```
 
-module "eks_self_managed_node_group" {
-    source = "./modules/eks/self-managed-node-group"
-    vpc_id = module.create_vpc.vpc_id
-    public_subnet_ids = module.create_vpc.public_subnets
-    cluster_security_group_id = module.create_eks.cluster_security_group_id
-    cluster_name = var.cluster_name
-    node_group_desired_capacity = var.node_group_desired_capacity
-    node_group_max_size = var.node_group_max_size
-    node_group_min_size = var.node_group_min_size
-}
+## 📚 Terraform EKS Sub-Modules.
+
+| Module Name | Description | Documentation |
+|-------------|-------------|----------------|
+| self-managed-node-group         | Creates EKS Self Managed Node Groups | [self-managed-node-group](modules/vpc/README.md) |
+| aws-managed-node-group         | Create EKS AWS Managed Node Groups | [aws-managed-node-group](modules/eks/aws-managed-node-group/README.md) |
+| fargate-profile         | Create EKS Fargate Profile | [fargate-profile] (modules/eks/fargate-profile/README.md) |

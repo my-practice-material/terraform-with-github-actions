@@ -78,8 +78,20 @@ variable "cluster_name" {
 
 variable "worker_node_name" {
   type        = string
-  description = "Name of node role"
-  default     = "eksWorkerNodeRole"
+  description = "Name of worker node"
+  default     = "study-worker-node"
+}
+
+variable "karpenter_controller_node_name" {
+  type        = string
+  description = "Name of Karpenter controller node role"
+  default     = "karpenter-controller-node"
+}
+
+variable "karpenter_worker_node_name" {
+  type        = string
+  description = "Name of Karpenter controller node role"
+  default     = "karpenter-controller-node"
 }
 
 variable "node_group_desired_capacity" {
@@ -103,4 +115,10 @@ variable "cluster_admin_role_arn" {
   type        = string
   description = "ARN of the IAM Role to be used as EKS Cluster admin. This role will be granted the AmazonEKSClusterAdminPolicy managed policy and added to the aws-auth configmap for cluster admin access."
   default     = "arn:aws:iam::360496493435:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess"
+}
+
+variable "coredns_addon_version" {
+  description = "The version of the CoreDNS addon to use for the EKS cluster"
+  type        = string
+  default     = "v1.13.2-eksbuild.4"
 }

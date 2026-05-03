@@ -16,7 +16,7 @@ variable "cluster_name" {
   default     = "study-eks-cluster"
 }
 
-variable "worker_node_name" {
+variable "karpenter_controller_node_name" {
   type        = string
   description = "Name of the IAM role to be used for the worker nodes in the node group"
   default     = "eksWorkerNodeRole"
@@ -76,4 +76,10 @@ variable "service_ipv4_cidr" {
   type        = string
   description = "CIDR block for Kubernetes service IP addresses in the EKS cluster"
   default     = "10.100.0.0/16" 
+}
+
+variable "coredns_addon_version" {
+  description = "The version of the CoreDNS addon to use for the EKS cluster"
+  type        = string
+  default     = "v1.13.2-eksbuild.4"
 }

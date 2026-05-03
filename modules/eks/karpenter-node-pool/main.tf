@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "assume_role_ec2" {
 
 # IAM role to assign to worker nodes
 resource "aws_iam_role" "node_instance_role" {
-  name               = "${var.worker_node_name}-role"
+  name               = "${var.karpenter_worker_node_name}-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_ec2.json
   path               = "/"
 }
@@ -38,18 +38,19 @@ resource "aws_iam_role_policy_attachment" "node_instance_role_SSMMIC" {
 
 # Instance profile to associate above role with worker nodes
 resource "aws_iam_instance_profile" "node_instance_profile" {
-  name = "NodeInstanceProfile"
+  name = "${var.karpenter_worker_node_name}-instance-profile"
   path = "/"
   role = aws_iam_role.node_instance_role.id
 }
 
 # Security group to apply to worker nodes
 resource "aws_security_group" "node_security_group" {
-  name        = "${var.worker_node_name}-security-group"
+  name        = "${var.karpenter_worker_node_name}-security-group"
   description = "Security group for all nodes in the cluster"
   vpc_id      = var.vpc_id
   tags = {
-    "Name" = "${var.worker_node_name}-security-group"
+    "karpenter.sh/discovery" = var.cluster_name
+    "Name" = "${var.karpenter_worker_node_name}-security-group"
   }
 }
 
@@ -105,91 +106,29 @@ resource "aws_vpc_security_group_ingress_rule" "cluster_control_plane_security_g
   referenced_security_group_id = aws_security_group.node_security_group.id
 }
 
-resource "aws_launch_template" "eks_node_group_launch_template" {
-  name = "${var.worker_node_name}-launch-template"
-  block_device_mappings {
-    device_name = "/dev/xvda"
-      ebs {
-        volume_size = 20
-        volume_type = "gp3"
-        delete_on_termination = true
-      }
-  }
-  image_id = data.aws_ssm_parameter.node_ami.value
-  instance_type = "t3.small"
-  key_name = data.aws_key_pair.existing_key_pair.key_name
-  vpc_security_group_ids = [
-    aws_security_group.node_security_group.id
-  ]
+resource "helm_release" "karpenter_node_pool" {
+  name       = "${var.karpenter_worker_node_name}-pool"
+  chart      = "${path.module}/helm"
 
-user_data = base64encode(<<-EOF
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
-
---==MYBOUNDARY==
-Content-Type: application/node.eks.aws
-
----
-apiVersion: node.eks.aws/v1alpha1
-kind: NodeConfig
-spec:
-  cluster:
-    name: ${var.cluster_name}
-    apiServerEndpoint: ${var.cluster_endpoint}
-    certificateAuthority: ${var.certificate_authority_data}
-    cidr: ${var.service_ipv4_cidr}
-  kubelet:
-    config:
-      clusterDNS:
-        - ${cidrhost(var.service_ipv4_cidr, 10)}
-    flags:
-    - --node-labels=karpenter.sh/controller=true
-
---==MYBOUNDARY==
-Content-Type: text/x-shellscript
-
-#!/bin/bash
-/usr/bin/nodeadm init
-
-if systemctl list-unit-files | grep -q '^firewalld'; then
-  systemctl stop firewalld
-  systemctl disable firewalld
-fi
-
-systemctl restart containerd
-systemctl restart kubelet
-
---==MYBOUNDARY==--
-EOF
-)
-
-  tags = var.tags
-  tag_specifications {
-    resource_type = "instance"
-
-    tags = {
-      Name = var.worker_node_name
-    }
-  }
+  values = [
+    yamlencode({
+      clusterName       = var.cluster_name
+      clusterEndpoint   = data.aws_eks_cluster.this.endpoint
+      clusterCA         = data.aws_eks_cluster.this.certificate_authority[0].data
+      amiID             = data.aws_ssm_parameter.node_ami.value
+      karpenterControllerNodeName = var.karpenter_controller_node_name
+      KarpenterWorkerNodeName = var.karpenter_worker_node_name
+      karpenterNodeRole = aws_iam_role.node_instance_role.name
+      AWSAccountID      = data.aws_caller_identity.current.account_id
+      
+      tags = merge(
+        var.tags,
+        {
+          Name = var.karpenter_worker_node_name
+        }
+      )
+    })
+  ] 
 }
 
-resource "aws_eks_node_group" "managed_node_group" {
-  cluster_name    = var.cluster_name
-  node_group_name = var.worker_node_name
-  launch_template {
-    id      = aws_launch_template.eks_node_group_launch_template.id
-    version = "$Latest"
-  }
-  node_role_arn   = aws_iam_role.node_instance_role.arn
-  subnet_ids      = var.public_subnet_ids
 
-  scaling_config {
-    desired_size = var.node_group_desired_capacity
-    max_size     = var.node_group_max_size
-    min_size     = var.node_group_min_size
-  }
-
-  update_config {
-    max_unavailable = 1
-  }
-}

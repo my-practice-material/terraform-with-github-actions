@@ -41,3 +41,18 @@ variable "private_subnet_names" {
   description = "List of names for private subnets for application servers"
   default     = ["my-vpc-app-priv-sbnt-az1", "my-vpc-app-priv-sbnt-az2"] 
 }
+
+variable "cluster_name" {
+  type        = string
+  description = "Name of the EKS cluster to which the VPC will be associated"
+  default     = "study-eks-cluster"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to assign to all resources in the VPC module."
+  default     = {
+    "environment" = "dev"
+    "owner"       = "Angad Wagh"
+  } 
+}
