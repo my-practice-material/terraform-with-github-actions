@@ -70,7 +70,7 @@ variable "db_private_subnet_names" {
   default     = ["study-vpc-db-priv-sbnt-az1", "study-vpc-db-priv-sbnt-az2"]  
 }
 
-variable "cluster_name" {
+variable "eks_cluster_name" {
   type        = string
   description = "Name of the EKS Cluster"
   default     = "study-eks-cluster" 

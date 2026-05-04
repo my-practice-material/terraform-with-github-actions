@@ -1,5 +1,6 @@
 ### AWS EKS Auto Mode - Bottlerocket
-A fully managed compute option where AWS automatically provisions and manages nodes for your cluster.
+
+AWS EKS Auto Mode is a fully managed Kubernetes option where AWS not only runs the control plane but also provisions, scales, secures, and updates the worker nodes and critical cluster infrastructure (like CoreDNS, kube‑proxy, VPC CNI, load balancing, and storage). It delivers a production‑ready cluster with minimal operational overhead, letting you focus entirely on workloads. 
 
 **Pros**
 - Zero infrastructure management — AWS handles node provisioning, scaling, and lifecycle.
@@ -12,6 +13,18 @@ A fully managed compute option where AWS automatically provisions and manages no
 
 **Limitations**
 - Currently limited to certain regions and features.
-- Bound to AWS’s supported configurations; advanced customization is not 
+- Bound to AWS’s supported configurations; advanced customization is not available.
 
 ---
+
+## 📊 EKS Auto Mode vs Standard Mode – Comparison Snapshot
+
+| Component            | Standard Mode (You manage) | Auto Mode (AWS manages) |
+|----------------------|-----------------------------|--------------------------|
+| CoreDNS              | Install/upgrade manually    | Pre‑installed, auto‑updated |
+| kube‑proxy           | Install/upgrade manually    | Pre‑installed, auto‑updated |
+| VPC CNI              | Install/upgrade manually    | Pre‑installed, auto‑updated |
+| Node autoscaling     | Cluster Autoscaler/Karpenter | Karpenter (built‑in) |
+| Load Balancing       | Install ALB Controller      | Managed by AWS |
+| Storage (EBS)        | Configure via CSI driver    | Auto‑provisioned |
+| GPU Support          | Manual AMI setup            | Auto‑provisioned |

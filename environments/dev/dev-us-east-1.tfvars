@@ -19,7 +19,7 @@ db_private_subnets = ["10.10.5.0/24", "10.10.6.0/24"]
 db_private_subnet_names = ["study-vpc-db-priv-sbnt-az1", "study-vpc-db-priv-sbnt-az2"]
 
 # EKS Cluster Configuration
-cluster_name = "study-eks-cluster"
+eks_cluster_name = "study-eks-cluster"
 worker_node_name = "study-eks-worker-node"
 node_group_desired_capacity = 2
 node_group_max_size = 3

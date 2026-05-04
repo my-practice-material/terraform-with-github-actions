@@ -122,46 +122,18 @@ resource "aws_launch_template" "eks_node_group_launch_template" {
     aws_security_group.node_security_group.id
   ]
 
-user_data = base64encode(<<-EOF
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+  # Bottlerocket user data is TOML, not shell script
+  user_data = base64encode(<<-EOT
+    [settings.kubernetes]
+    cluster-name = "${var.cluster_name}"
+    api-server   = "${var.cluster_endpoint}"
+    cluster-certificate = "${var.certificate_authority_data}"
+    cluster-dns-ip = "${cidrhost(var.service_ipv4_cidr, 10)}"
 
---==MYBOUNDARY==
-Content-Type: application/node.eks.aws
-
----
-apiVersion: node.eks.aws/v1alpha1
-kind: NodeConfig
-spec:
-  cluster:
-    name: ${var.cluster_name}
-    apiServerEndpoint: ${var.cluster_endpoint}
-    certificateAuthority: ${var.certificate_authority_data}
-    cidr: ${var.service_ipv4_cidr}
-  kubelet:
-    config:
-      clusterDNS:
-        - ${cidrhost(var.service_ipv4_cidr, 10)}
-    flags:
-    - --node-labels=karpenter.sh/controller=true
-
---==MYBOUNDARY==
-Content-Type: text/x-shellscript
-
-#!/bin/bash
-/usr/bin/nodeadm init
-
-if systemctl list-unit-files | grep -q '^firewalld'; then
-  systemctl stop firewalld
-  systemctl disable firewalld
-fi
-
-systemctl restart containerd
-systemctl restart kubelet
-
---==MYBOUNDARY==--
-EOF
-)
+    [settings.kubernetes.node-labels]
+    "Name" = "bottlerocket-node"
+  EOT
+  )
 
   tags = var.tags
   tag_specifications {
