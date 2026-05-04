@@ -4,7 +4,7 @@ AWS EKS Standard Mode is the original way to run Kubernetes on AWS: AWS manages 
 
 ## 🚀 AWS EKS Cluster Options.
 
-| Mode            | Node Management | Best Use Case                  | Pros                                | Cons                          |
+| Mode            | Manage-Node | Best Use Case                  | Pros                                | Cons                          |
 |-----------------|------------------|--------------------------------|-------------------------------------|-------------------------------|
 | **Standard**    | You              | Enterprises, custom workloads  | Full control, flexible               | Manual scaling & patching     |
 | **Auto**        | AWS              | Production workloads, startups | Fully managed, autoscaling, secure   | Less customization            |
