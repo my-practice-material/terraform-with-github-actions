@@ -1,4 +1,4 @@
-# AWS EKS Auto Mode - Bottlerocket
+# AWS EKS Standard Mode.
 
 AWS EKS Standard Mode is the original way to run Kubernetes on AWS: AWS manages the control plane, but you are responsible for the worker nodes, networking, storage, and addons. This gives maximum flexibility but also requires more operational effort compared to Auto Mode.
 
