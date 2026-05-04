@@ -22,6 +22,7 @@ This repository demonstrates how to:
 | Module Name | Description | Documentation |
 |-------------|-------------|----------------|
 | VPC         | Creates VPC, Subnets, and Networking Resources | [VPC Docs](modules/vpc/README.md) |
-| EKS         | Provisions an EKS cluster | [EKS Docs](modules/eks/README.md) |
+| EKS Standard  | Provisions an EKS cluster | [EKS Standard](modules/eks-standard/README.md) |
+| EKS Auto-Mode | Provisions an EKS cluster | [EKS Auto-Mode](modules/eks-auto-mode/README.md) |
 
 ---
