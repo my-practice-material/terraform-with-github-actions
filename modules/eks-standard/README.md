@@ -1,12 +1,10 @@
-# Terraform EKS Cluster Module
-
-This module help you to create AWS EKS Cluster with Standard Mode.
+# AWS EKS Auto Mode - Bottlerocket
 
 AWS EKS Standard Mode is the original way to run Kubernetes on AWS: AWS manages the control plane, but you are responsible for the worker nodes, networking, storage, and addons. This gives maximum flexibility but also requires more operational effort compared to Auto Mode.
 
 ## 🚀 AWS EKS Cluster Options.
 
-| Mode            | Who Manages Nodes | Best Use Case                  | Pros                                | Cons                          |
+| Mode            | Node Management | Best Use Case                  | Pros                                | Cons                          |
 |-----------------|------------------|--------------------------------|-------------------------------------|-------------------------------|
 | **Standard**    | You              | Enterprises, custom workloads  | Full control, flexible               | Manual scaling & patching     |
 | **Auto**        | AWS              | Production workloads, startups | Fully managed, autoscaling, secure   | Less customization            |
