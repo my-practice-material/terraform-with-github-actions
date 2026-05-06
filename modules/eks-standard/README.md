@@ -38,7 +38,7 @@ Worker nodes must be able to connect to the **EKS control plane** and other AWS 
 
 ---
 
-## ❓ Do we need the control plane in public subnets?
+## Do we need the control plane in public subnets❓
 No.  
 The **EKS control plane is always provisioned by AWS in managed VPCs** that you don’t control. You only decide whether your worker nodes run in private or public subnets.  
 - If nodes are in **private subnets**, you need **VPC endpoints or a NAT Gateway**.  
@@ -67,4 +67,5 @@ module "create_eks" {
 | karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](karpenter-controller/README.md) |
 | karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group-al2023](karpenter-node-group-al2023/README.md) |
 | karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool-al2023](karpenter-node-pool-al2023/README.md) |
-| aws-managed-node-group-br         | Create EKS Managed Node Group with Amazon Bottlerocket. | [managed-node-group-bottlerocket](managed-node-group-bottlerocket/README.md) |
+| aws-managed-node-group-bottlerocket         | Create EKS Managed Node Group with Amazon Bottlerocket. | [managed-node-group-bottlerocket](managed-node-group-bottlerocket/README.md) |
+| cluster-autoscaler         | Install Cluster Autoscaler on EKS Cluster. | [cluster-autoscaler](cluster-autoscaler/README.md) |
