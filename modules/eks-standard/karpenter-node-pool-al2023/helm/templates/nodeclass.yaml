@@ -20,3 +20,5 @@ spec:
   securityGroupSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+  kubeletConfiguration:
+    failSwapOn: false

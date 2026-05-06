@@ -19,19 +19,8 @@ module "create_vpc" {
 }
 
 # Create EKS cluster-standard.
-# module "create_eks_standard_cluster" {
-#     source = "./modules/eks-standard"
-#     cluster_name = var.eks_cluster_name
-#     private_subnet_ids = module.create_vpc.private_subnets
-#     public_subnet_ids = module.create_vpc.public_subnets
-#     cluster_admin_role_arn = var.cluster_admin_role_arn
-#     tags = var.tags
-#     depends_on = [ module.create_vpc ]
-# }
-
-# Create EKS cluster-auto-mode.
-module "create_eks_auto_mode_cluster" {
-    source = "./modules/eks-auto-mode"
+module "create_eks_standard_cluster" {
+    source = "./modules/eks-standard"
     cluster_name = var.eks_cluster_name
     private_subnet_ids = module.create_vpc.private_subnets
     public_subnet_ids = module.create_vpc.public_subnets
@@ -39,6 +28,17 @@ module "create_eks_auto_mode_cluster" {
     tags = var.tags
     depends_on = [ module.create_vpc ]
 }
+
+# Create EKS cluster-auto-mode.
+# module "create_eks_auto_mode_cluster" {
+#     source = "./modules/eks-auto-mode"
+#     cluster_name = var.eks_cluster_name
+#     private_subnet_ids = module.create_vpc.private_subnets
+#     public_subnet_ids = module.create_vpc.public_subnets
+#     cluster_admin_role_arn = var.cluster_admin_role_arn
+#     tags = var.tags
+#     depends_on = [ module.create_vpc ]
+# }
 
 # Create self-managed node group for EKS cluster with AL2 AMI.
 # module "create_self_managed_node_group_al2" {
@@ -56,22 +56,29 @@ module "create_eks_auto_mode_cluster" {
 # }
 
 # Create AWS Managed Node Group for EKS cluster with AL2023 AMI.
-# module "create_managed_node_group_al2023" {
-#     source = "./modules/eks-standard/managed-node-group-al2023"
-#     vpc_id = module.create_vpc.vpc_id
-#     worker_node_name = var.worker_node_name
-#     private_subnet_ids = module.create_vpc.private_subnets
-#     public_subnet_ids = module.create_vpc.public_subnets
-#     cluster_security_group_id = module.create_eks_standard_cluster.cluster_security_group_id
-#     cluster_name = var.eks_cluster_name
-#     node_group_desired_capacity = var.node_group_desired_capacity
-#     node_group_max_size = var.node_group_max_size
-#     node_group_min_size = var.node_group_min_size
-#     certificate_authority_data = module.create_eks_standard_cluster.certificate_authority_data
-#     cluster_endpoint = module.create_eks_standard_cluster.cluster_endpoint
-#     service_ipv4_cidr = module.create_eks_standard_cluster.service_ipv4_cidr
-#     depends_on = [ module.create_eks_standard_cluster ]
-# }
+module "create_managed_node_group_al2023" {
+    source = "./modules/eks-standard/managed-node-group-al2023"
+    vpc_id = module.create_vpc.vpc_id
+    worker_node_name = var.worker_node_name
+    private_subnet_ids = module.create_vpc.private_subnets
+    public_subnet_ids = module.create_vpc.public_subnets
+    cluster_security_group_id = module.create_eks_standard_cluster.cluster_security_group_id
+    cluster_name = var.eks_cluster_name
+    node_group_desired_capacity = var.node_group_desired_capacity
+    node_group_max_size = var.node_group_max_size
+    node_group_min_size = var.node_group_min_size
+    certificate_authority_data = module.create_eks_standard_cluster.certificate_authority_data
+    cluster_endpoint = module.create_eks_standard_cluster.cluster_endpoint
+    service_ipv4_cidr = module.create_eks_standard_cluster.service_ipv4_cidr
+    depends_on = [ module.create_eks_standard_cluster ]
+}
+
+module "deploy_cluster_autoscaler" {
+  source = "./modules/eks-standard/cluster-autoscaler"
+  cluster_name = var.eks_cluster_name
+  tags = var.tags
+  depends_on = [ module.create_managed_node_group_al2023 ]
+}
 
 # Create AWS Managed Node Group for EKS cluster with Bottlerocket AMI.
 # module "create_managed_node_group-bottlerocket" {
@@ -124,7 +131,7 @@ module "create_eks_auto_mode_cluster" {
 #   source = "./modules/eks-standard/karpenter-controller"
 #   cluster_name = var.eks_cluster_name
 #   tags = var.tags
-#   depends_on = [ module.create_eks_standard_cluster, module.karpenter_aws_managed_node_group ]
+#   depends_on = [ module.create_eks_standard_cluster, module.create_karpenter_node_group_al2023 ]
 # }
 
 # Create Karpenter node pool for EKS cluster.
@@ -138,6 +145,6 @@ module "create_eks_auto_mode_cluster" {
 #   cluster_security_group_id   = module.create_eks_standard_cluster.cluster_security_group_id
 #   karpenter_worker_node_name  = var.karpenter_worker_node_name
 #   karpenter_controller_node_name = var.karpenter_controller_node_name
-#   karpenter_node_role_arn     = module.karpenter_aws_managed_node_group.karpenter_node_group_iam_role_arn
-#   depends_on                  = [ module.karpenter-controller ]
+#   karpenter_node_role_arn     = module.create_karpenter_node_group_al2023.karpenter_node_group_iam_role_arn
+#   depends_on                  = [ module.deploy-karpenter-controller ]
 # }

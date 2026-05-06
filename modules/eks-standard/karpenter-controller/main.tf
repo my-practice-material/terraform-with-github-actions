@@ -100,3 +100,5 @@ resource "helm_release" "karpenter" {
   ] 
 }
 
+
+

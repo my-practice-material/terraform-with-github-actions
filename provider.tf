@@ -22,24 +22,24 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes = {
-    host                   = module.create_eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.create_eks.certificate_authority_data)
+    host                   = module.create_eks_standard_cluster.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.create_eks_standard_cluster.certificate_authority_data)
 
     exec = {
       api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", module.create_eks.cluster_name, "--region", data.aws_region.current.id]
+      args        = ["eks", "get-token", "--cluster-name", module.create_eks_standard_cluster.cluster_name, "--region", data.aws_region.current.id]
       command     = "aws"
     }
   }
 }
 
 provider "kubectl" {
-  host                   = module.create_eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.create_eks.certificate_authority_data)
+  host                   = module.create_eks_standard_cluster.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.create_eks_standard_cluster.certificate_authority_data)
 
   exec = {
     api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", module.create_eks.cluster_name, "--region", data.aws_region.current.id]
+    args        = ["eks", "get-token", "--cluster-name", module.create_eks_standard_cluster.cluster_name, "--region", data.aws_region.current.id]
     command     = "aws"
   }
 }
