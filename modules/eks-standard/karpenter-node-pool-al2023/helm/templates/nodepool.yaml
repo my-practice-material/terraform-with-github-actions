@@ -1,0 +1,24 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: default
+  namespace: karpenter
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        name: default
+        kind: EC2NodeClass
+        group: karpenter.k8s.aws
+      requirements:
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["amd64"]
+        - key: "kubernetes.io/os"
+          operator: In
+          values: ["linux"]
+  limits:
+    cpu: 1000
+  disruption:
+    consolidateAfter: 30s
+    expireAfter: 720h

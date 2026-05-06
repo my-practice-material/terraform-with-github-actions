@@ -1,0 +1,24 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+  namespace: karpenter
+spec:
+  amiFamily: AL2023
+  amiSelectorTerms:
+    - id: {{ .Values.amiID }}   # AMI ID for worker nodes
+  role: {{ .Values.karpenterNodeRole}}   # IAM role for worker nodes
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: 20Gi
+        volumeType: gp3
+        deleteOnTermination: true
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ .Values.clusterName }}
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ .Values.clusterName }}
+  kubeletConfiguration:
+    failSwapOn: false

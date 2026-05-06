@@ -17,7 +17,7 @@ permissions:
   checks: write  # Allow GitHub Actions to manage checks
 
 jobs:
-  terraform-init:
+  terraform-pipeline:
     environment: dev
     runs-on: ubuntu-latest
     steps:
