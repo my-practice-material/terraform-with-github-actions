@@ -120,6 +120,8 @@ resource "helm_release" "karpenter_node_pool" {
       KarpenterWorkerNodeName = var.karpenter_worker_node_name
       karpenterNodeRole = aws_iam_role.node_instance_role.name
       AWSAccountID      = data.aws_caller_identity.current.account_id
+      region            = data.aws_region.current.id
+      clusterServiceCIDR = var.service_ipv4_cidr
       
       tags = merge(
         var.tags,

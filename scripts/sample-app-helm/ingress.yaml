@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-app-ingress
+  labels:
+    app: sample-app
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/subnets: subnet-0440680bbcedb0f10,subnet-0e15c5d1af473b0f6
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/ssl-redirect: '443'
+    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:992293216837:certificate/47a4324c-f48b-4e2d-a94a-f5d761b72920
+spec:
+  ingressClassName: alb
+  defaultBackend:
+    service:
+      name: sample-app-service
+      port:
+        number: 80
+  rules:
+  - host: myapp.waghangad.com
+    http:
+      paths:
+      - path: /products
+        pathType: Prefix
+        backend:
+          service:
+            name: sample-app-service
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sample-app-service
+            port:
+              number: 80

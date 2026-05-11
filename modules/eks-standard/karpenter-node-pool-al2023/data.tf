@@ -18,3 +18,5 @@ data "aws_caller_identity" "current" {}
 data "aws_iam_role" "karpenter-controller-node-role" {
   name = "karpenter-controller-node-role"
 }
+
+data "aws_region" "current" {}

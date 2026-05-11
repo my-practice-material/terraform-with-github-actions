@@ -157,6 +157,17 @@ if systemctl list-unit-files | grep -q '^firewalld'; then
 fi
 
 systemctl restart containerd
+
+# wait for containerd to be ready before restarting kubelet
+for i in {1..30}; do
+  if systemctl is-active --quiet containerd; then
+    echo "containerd is active"
+    break
+  fi
+  echo "Waiting for containerd to be ready..."
+  sleep 2
+done
+
 systemctl restart kubelet
 
 --==MYBOUNDARY==--
@@ -204,50 +215,18 @@ resource "aws_eks_node_group" "karpenter_controller_node_group" {
   }
 }
 
-# resource "aws_eks_addon" "core_dns" {
-#   cluster_name = var.cluster_name
-#   addon_name   = "coredns"
-#   addon_version = var.coredns_addon_version
-#   configuration_values = jsonencode({
-#     tollerations = [
-#       {
-#         key = "karpenter.sh/controller"
-#         value = true
-#         effect = "NO_SCHEDULE"
-#       }
-#      ]
-#      affinity = {
-#         nodeAffinity = {
-#           requiredDuringSchedulingIgnoredDuringExecution = {
-#             nodeSelectorTerms = [
-#               {
-#                 matchExpressions = [
-#                   {
-#                     key = "eks.amazonaws.com/nodegroup"
-#                     operator = "In"
-#                     values = [var.worker_node_name]
-#                   }
-#                 ]
-#               }
-#             ]
-#           }
-#         }
-#      }
-#      podAntiAffinity = {
-#         requiredDuringSchedulingIgnoredDuringExecution = [
-#           {
-#             labelSelector = {
-#               matchExpressions = [
-#                 {
-#                   key = "app"
-#                   operator = "In"
-#                   values = ["coredns"]
-#                 }
-#               ]
-#             }
-#             topologyKey = "kubernetes.io/hostname"
-#           }
-#         ] 
-#      }
-#   })
-# }
+resource "aws_eks_addon" "coredns" {
+  depends_on = [ aws_eks_node_group.karpenter_controller_node_group ]
+  cluster_name = var.cluster_name
+  addon_name   = "coredns"
+  addon_version = var.coredns_addon_version
+  configuration_values = jsonencode({
+    "tolerations": [
+      {
+        "key": "karpenter.sh/controller",
+        "operator": "Exists",
+        "effect": "NoSchedule"
+      }
+    ]
+   })
+}

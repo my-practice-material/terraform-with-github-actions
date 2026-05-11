@@ -1,8 +1,8 @@
-resource "aws_iam_openid_connect_provider" "eks" {
-  url             = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint]
-}
+# resource "aws_iam_openid_connect_provider" "eks" {
+#   url             = data.aws_eks_cluster.this.identity[0].oidc[0].issuer
+#   client_id_list  = ["sts.amazonaws.com"]
+#   thumbprint_list = [data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint]
+# }
 
 resource "aws_iam_role" "cluster_autoscaler_role" {
   name = "cluster-autoscaler-role"
@@ -13,7 +13,7 @@ resource "aws_iam_role" "cluster_autoscaler_role" {
       {
         Effect = "Allow"
         Principal = {
-          Federated = aws_iam_openid_connect_provider.eks.arn
+          Federated = var.aws_iam_openid_connect_provider_arn
         }
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
@@ -38,7 +38,6 @@ resource "aws_iam_role_policy_attachment" "cluster_autoscaler_policy_attachment"
   role       = aws_iam_role.cluster_autoscaler_role.name
   policy_arn = aws_iam_policy.cluster_autoscaler_policy.arn
 }
-
 
 # Install cluster autoscaler using Helm
 resource "helm_release" "cluster_autoscaler" {

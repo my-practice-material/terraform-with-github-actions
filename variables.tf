@@ -117,6 +117,12 @@ variable "cluster_admin_role_arn" {
   default     = "arn:aws:iam::360496493435:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess"
 }
 
+variable "vpc_cni_addon_version" {
+  description = "The version of the Amazon VPC CNI addon to use for the EKS cluster"
+  type        = string
+  default     = "v1.21.1-eksbuild.1"        
+}
+
 variable "coredns_addon_version" {
   description = "The version of the CoreDNS addon to use for the EKS cluster"
   type        = string
