@@ -78,7 +78,7 @@ module "install_vpc_cni" {
 # }
 
 # module "deploy_cluster_autoscaler" {
-#   source = "./modules/eks-standard/cluster-autoscaler"
+#   source = "./modules/eks-standard/kubernetes-cluster-autoscaler"
 #   cluster_name = var.eks_cluster_name
 #   aws_iam_openid_connect_provider_arn = module.create_eks_standard_cluster.aws_iam_openid_connect_provider_arn
 #   tags = var.tags
