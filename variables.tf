@@ -1,20 +1,5 @@
 # This file is used to define the input variables for the Terraform configuration.
 
-variable "tags" {
-  type        = map(string)
-  description = "A map of tags to assign to all resources."
-  default     = {
-    "environment" = "dev"
-    "owner"       = "Angad Wagh"
-  } 
-}
-
-variable "bucket_name" {
-  type        = string
-  description = "AWS S3 Bucket Name."
-  default     = "study-terraform-bucket"
-}
-
 variable "vpc_name" {
   type        = string
   description = "Name of the VPC"
@@ -84,25 +69,20 @@ variable "worker_node_name" {
 
 variable "karpenter_controller_node_name" {
   type        = string
-  description = "Name of Karpenter controller node role"
+  description = "Name of Karpenter controller node"
   default     = "karpenter-controller-node"
 }
 
 variable "karpenter_worker_node_name" {
   type        = string
-  description = "Name of Karpenter controller node role"
-  default     = "karpenter-controller-node"
+  description = "Name of Karpenter worker node"
+  default     = "karpenter-worker-node"
 }
 
 variable "node_group_desired_capacity" {
   type        = number
   description = "Desired capacity of Node Group ASG."
   default     = 1
-}
-variable "node_group_max_size" {
-  type        = number
-  description = "Maximum size of Node Group ASG. Set to at least 1 greater than node_group_desired_capacity."
-  default     = 2
 }
 
 variable "node_group_min_size" {
@@ -111,14 +91,35 @@ variable "node_group_min_size" {
   default     = 1
 }
 
+variable "node_group_max_size" {
+  type        = number
+  description = "Maximum size of Node Group ASG. Set to at least 1 greater than node_group_desired_capacity."
+  default     = 2
+}
+
 variable "cluster_admin_role_arn" {
   type        = string
   description = "ARN of the IAM Role to be used as EKS Cluster admin. This role will be granted the AmazonEKSClusterAdminPolicy managed policy and added to the aws-auth configmap for cluster admin access."
   default     = "arn:aws:iam::360496493435:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess"
 }
 
+variable "vpc_cni_addon_version" {
+  description = "The version of the Amazon VPC CNI addon to use for the EKS cluster"
+  type        = string
+  default     = "v1.21.1-eksbuild.1"        
+}
+
 variable "coredns_addon_version" {
   description = "The version of the CoreDNS addon to use for the EKS cluster"
   type        = string
   default     = "v1.13.2-eksbuild.4"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to assign to all resources."
+  default     = {
+    "environment" = "dev"
+    "owner"       = "Angad Wagh"
+  } 
 }

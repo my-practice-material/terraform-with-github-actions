@@ -22,3 +22,8 @@ output "service_ipv4_cidr" {
   value = aws_eks_cluster.study-eks-cluster.kubernetes_network_config[0].service_ipv4_cidr
   description = "CIDR block for Kubernetes service IP addresses in the EKS cluster"
 }
+
+output "aws_iam_openid_connect_provider_arn" {
+  value = aws_iam_openid_connect_provider.eks.arn
+  description = "ARN of the IAM OIDC provider for the EKS cluster"
+}

@@ -1,10 +1,5 @@
 # Terraform Variables for Dev Environment in US East 1 Region
 
-tags = {
-  "environment" = "dev"
-  "owner"       = "waghangad"
-}
-
 bucket_name = "study-terraform-bucket"
 
 # VPC Configuration
@@ -26,6 +21,13 @@ node_group_max_size = 3
 node_group_min_size = 1
 cluster_admin_role_arn = "arn:aws:iam::360496493654:role/aws-reserved/sso.amazonaws.com/ap-south-1/AWSReservedSSO_AdministratorAccess_c3baec8c61b153ee"
 
-coredns_addon_version = "v1.13.2-eksbuild.4"
+vpc_cni_addon_version = "v1.21.1-eksbuild.1" # check latest
+coredns_addon_version = "v1.12.1-eksbuild.2" # check latest
 karpenter_controller_node_name = "karpenter-controller-node"
 karpenter_worker_node_name = "karpenter-worker-node"
+
+# Mandatory tags for all resources
+tags = {
+  "environment" = "dev"
+  "owner"       = "waghangad"
+}

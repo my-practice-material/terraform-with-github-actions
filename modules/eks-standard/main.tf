@@ -1,3 +1,4 @@
+# Create IAM role for EKS Cluster with trust relationship to EKS service
 resource "aws_iam_role" "study-eks-cluster-role" {
   name = "${var.cluster_name}-role"
   tags = var.tags
@@ -18,11 +19,13 @@ resource "aws_iam_role" "study-eks-cluster-role" {
   })
 }
 
+# Attach the AmazonEKSClusterPolicy to the IAM role
 resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.study-eks-cluster-role.name
 }
 
+# Create the EKS ClusterS
 resource "aws_eks_cluster" "study-eks-cluster" {
   name = var.cluster_name
 
@@ -60,4 +63,10 @@ resource "aws_eks_cluster" "study-eks-cluster" {
   tags = var.tags
 }
 
-
+# Create OIDC provider for the EKS cluster
+resource "aws_iam_openid_connect_provider" "eks" {
+  url             = aws_eks_cluster.study-eks-cluster.identity[0].oidc[0].issuer
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.eks_oidc.certificates[0].sha1_fingerprint]
+  depends_on = [ aws_eks_cluster.study-eks-cluster ]
+}

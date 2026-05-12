@@ -30,3 +30,9 @@ variable "tags" {
     "owner"       = "Angad Wagh"
   }
 }
+
+variable "aws_iam_openid_connect_provider_arn" {
+  type        = string
+  description = "ARN of the AWS IAM OpenID Connect provider for the EKS cluster"
+  default     = ""
+}
