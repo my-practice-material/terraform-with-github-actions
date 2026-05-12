@@ -1,9 +1,3 @@
-# Create S3 bucket with a unique name using the current AWS account ID
-# module "create_s3_bucket" {
-#     source        = "./modules/s3"
-#     bucket_name   = "${var.bucket_name}-${data.aws_caller_identity.current.account_id}"
-# }
-
 # Create VPC with public and private subnets
 module "create_vpc" {
     source                      = "./modules/vpc"
