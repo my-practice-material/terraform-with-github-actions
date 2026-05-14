@@ -1,7 +1,5 @@
 # Terraform Variables for Dev Environment in US East 1 Region
 
-bucket_name = "study-terraform-bucket"
-
 # VPC Configuration
 vpc_name = "study-vpc"
 vpc_cidr = "10.10.0.0/20"

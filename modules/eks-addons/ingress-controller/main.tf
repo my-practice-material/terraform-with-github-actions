@@ -13,7 +13,7 @@ resource "aws_iam_role" "ingress_controller_role" {
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringEquals = {
-            "${replace(data.aws_eks_cluster.this.identity[0].oidc[0].issuer, "https://", "")}:sub" = "system:serviceaccount:kube-system:ingress-controller-sa"
+            "${replace(data.aws_eks_cluster.this.identity[0].oidc[0].issuer, "https://", "")}:sub": "system:serviceaccount:kube-system:ingress-controller-sa"
           }
         }
       }
@@ -35,15 +35,17 @@ resource "aws_iam_role_policy_attachment" "ingress_controller_policy_attachment"
 }
 
 resource "helm_release" "ingress_controller" {
-  name       = "ingress-controller"
+  name       = "aws-load-balancer-controller"
   namespace  = "kube-system"
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   version    = "1.7.1"
-
+  timeout    = 600   # wait up to 10 minutes for the deployment to complete
+  
   values = [
     yamlencode({
+      fullnameOverride: "aws-load-balancer-controller"
       clusterName = var.cluster_name
       vpcId       = var.vpc_id 
       serviceAccount = {

@@ -227,6 +227,39 @@ resource "aws_eks_addon" "coredns" {
         "operator": "Exists",
         "effect": "NoSchedule"
       }
-    ]
+    ],
+    "affinity": {
+      "nodeAffinity": {
+        "requiredDuringSchedulingIgnoredDuringExecution": {
+          "nodeSelectorTerms": [
+            {
+              "matchExpressions": [
+                {
+                  "key": "eks.amazonaws.com/nodegroup",
+                  "operator": "In",
+                  "values": ["karpenter-controller-node"]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "podAntiAffinity": {
+        "requiredDuringSchedulingIgnoredDuringExecution": [
+          {
+            "labelSelector": {
+              "matchExpressions": [
+                {
+                  "key": "k8s-app",
+                  "operator": "In",
+                  "values": ["kube-dns"]
+                }
+              ]
+            },
+            "topologyKey": "kubernetes.io/hostname"
+          }
+        ]
+      }
+    }
    })
 }
