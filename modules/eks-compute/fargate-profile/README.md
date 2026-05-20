@@ -8,9 +8,9 @@
 ## 🔑 Required IAM Role for Fargate Profile
 ### Pod Execution Role
 
-- **Trust Policy:** Must allow the service principal eks-fargate-pods.amazonaws.com to assume the role.
+- **Trust Policy:** Must allow the service principal `eks-fargate-pods.amazonaws.com` to assume the role.
 
-- **Permissions Policy:** Attach the AWS‑managed policy AmazonEKSFargatePodExecutionRolePolicy.
+- **Permissions Policy:** Attach the AWS‑managed policy `AmazonEKSFargatePodExecutionRolePolicy`.
 
 - **Purpose:** Provides permissions for Fargate to run pods, including pulling images from Amazon ECR or other registries.
 
@@ -18,7 +18,7 @@
 
 - Automatically created by EKS when you set up Fargate.
 
-- Named AWSServiceRoleForAmazonEKSForFargate.
+- Named `AWSServiceRoleForAmazonEKSForFargate`.
 
 - Allows EKS to manage VPC networking for Fargate pods (creating/deleting ENIs).
 
