@@ -1,11 +1,10 @@
-# GitHub Actions Terraform
+# GitHub Actions - Terraform - EKS Cluster
 
-GitHub Actions Workflow for Terraform Deployment with AWS S3 and DynamoDB backend.
-This repository mainly contains Terraform modules for EKS Cluster options.
+This repository provides automation and infrastructure modules for deploying an **Amazon EKS Cluster** using **Terraform** and **GitHub Actions**.
 
 ## 🚀 Overview
 This repository demonstrates how to:
-- Use **Terraform** to provision infrastructure.
+- Use **Terraform** to provision EKS cluster, EKS Compute Options, EKS AddOns, EKS Networking etc.
 - Configure **AWS S3** as a remote backend to store `terraform.tfstate`.
 - Configure **AWS DynamoDB** for state locking (or use `use_lockfile` in Terraform >= 1.9.0).
 - **Note:** Since Terraform 1.9.0, you can use use_lockfile = true instead of DynamoDB for state locking.
