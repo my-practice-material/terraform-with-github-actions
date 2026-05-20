@@ -22,8 +22,8 @@ This repository demonstrates how to:
 
 ## 🚀 AWS EKS Cluster Options.
 
-|Mode            |Who Manages Node |Best Use Case                  |Pros                                |Cons                          |
-|-----------------|------------------|--------------------------------|-------------------------------------|-------------------------------|
+| Mode            | Who Manages Node | Best Use Case                  | Pros                                | Cons                          |
+|:-----------------|:------------------|:--------------------------------|:-------------------------------------|:-------------------------------|
 | **Standard**    | You              | Enterprises, custom workloads  | Full control, flexible               | Manual scaling & patching     |
 | **Auto**        | AWS              | Production workloads, startups | Fully managed, autoscaling, secure   | Less customization            |
 | **Fargate**     | AWS (serverless) | Stateless, event‑driven apps   | No node mgmt, pod‑level scaling      | Limited workloads, higher cost|
@@ -34,7 +34,7 @@ This repository demonstrates how to:
 ## 📚 Terraform Modules
 
 | Module Name | Description | Documentation |
-|-------------|-------------|----------------|
+|:-------------|:-------------|:----------------|
 | VPC         | Creates VPC, Subnets, and Networking Resources | [VPC Docs](modules/vpc/README.md) |
 | EKS Standard  | Provisions an EKS cluster | [EKS Standard](modules/eks-standard/README.md) |
 | EKS Auto-Mode | Provisions an EKS cluster | [EKS Auto-Mode](modules/eks-auto-mode/README.md) |
