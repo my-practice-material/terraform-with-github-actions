@@ -22,7 +22,7 @@ This repository demonstrates how to:
 
 ## 🚀 AWS EKS Cluster Options.
 
-| Mode            | Manage-Node | Best Use Case                  | Pros                                | Cons                          |
+|Mode            |Who Manages Node |Best Use Case                  |Pros                                |Cons                          |
 |-----------------|------------------|--------------------------------|-------------------------------------|-------------------------------|
 | **Standard**    | You              | Enterprises, custom workloads  | Full control, flexible               | Manual scaling & patching     |
 | **Auto**        | AWS              | Production workloads, startups | Fully managed, autoscaling, secure   | Less customization            |
