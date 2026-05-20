@@ -51,7 +51,7 @@ module "create_eks" {
 
 | Module Name | Description | Documentation |
 |-------------|-------------|----------------|
-| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group-al2](./eks-compute/self-managed-node-group-al2/README.md) |
+| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group-al2](../eks-compute/self-managed-node-group-al2/README.md) |
 | aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [managed-node-group-al2023](managed-node-group-al2023/README.md) |
 | fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](fargate-profile/README.md) |
 | karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](karpenter-controller/README.md) |
