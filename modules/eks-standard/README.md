@@ -50,7 +50,7 @@ module "create_eks" {
 ## 📚 Terraform EKS Compute Options.
 
 | Module Name | Description | Documentation |
-|-------------|-------------|----------------|
+|:-------------|:-------------|:----------------|
 | self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group-al2](../eks-compute/self-managed-node-group-al2/README.md) |
 | aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [managed-node-group-al2023](../eks-compute/managed-node-group-al2023/README.md) |
 | fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](../eks-compute/fargate-profile/README.md) |
