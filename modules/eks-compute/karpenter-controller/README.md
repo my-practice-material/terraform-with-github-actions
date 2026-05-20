@@ -37,6 +37,15 @@ It provisions the required IAM role, service account, IAM policies, and installs
 
 ---
 
+## 📦 Chart References
+
+- **GitHub Repository**: [aws/karpenter-provider-aws – charts](https://github.com/aws/karpenter-provider-aws/tree/main/charts)  
+- **OCI Registry**:  
+  - `repository = "oci://public.ecr.aws/karpenter"`  
+    - `chart = "karpenter-crd"`  
+    - `chart = "karpenter"`
+
+---
 ## ⚙️ Usage Example
 
 ```hcl
