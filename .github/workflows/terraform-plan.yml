@@ -7,7 +7,7 @@ run-name: "🚀 Terraform Plan • Branch: ${{ github.ref }} • Job #${{ github
 on: 
   push:
     branches:
-      - development
+      - main
 permissions:
   id-token: write  # Allow GitHub Actions to request OIDC tokens
   contents: write  # Allow GitHub Actions to read repository contents (e.g., for checkout)
