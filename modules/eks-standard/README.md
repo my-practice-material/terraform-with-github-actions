@@ -2,16 +2,6 @@
 
 AWS EKS Standard Mode is the original way to run Kubernetes on AWS: AWS manages the control plane, but you are responsible for the worker nodes, networking, storage, and addons. This gives maximum flexibility but also requires more operational effort compared to Auto Mode.
 
-## 🚀 AWS EKS Cluster Options.
-
-| Mode            | Manage-Node | Best Use Case                  | Pros                                | Cons                          |
-|-----------------|------------------|--------------------------------|-------------------------------------|-------------------------------|
-| **Standard**    | You              | Enterprises, custom workloads  | Full control, flexible               | Manual scaling & patching     |
-| **Auto**        | AWS              | Production workloads, startups | Fully managed, autoscaling, secure   | Less customization            |
-| **Fargate**     | AWS (serverless) | Stateless, event‑driven apps   | No node mgmt, pod‑level scaling      | Limited workloads, higher cost|
-| **Anywhere**    | You (on‑prem)    | Hybrid, compliance workloads   | On‑prem control with AWS tooling     | Infra setup required          |
-
-
 ## 🌐 Networking Considerations
 
 Worker nodes must be able to connect to the **EKS control plane** and other AWS services (STS, ECR, S3). Depending on your subnet design, you have three options:
@@ -60,12 +50,12 @@ module "create_eks" {
 ## 📚 Terraform EKS Compute Options.
 
 | Module Name | Description | Documentation |
-|-------------|-------------|----------------|
-| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group-al2](self-managed-node-group-al2/README.md) |
-| aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [managed-node-group-al2023](managed-node-group-al2023/README.md) |
-| fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](fargate-profile/README.md) |
-| karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](karpenter-controller/README.md) |
-| karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group-al2023](karpenter-node-group-al2023/README.md) |
-| karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool-al2023](karpenter-node-pool-al2023/README.md) |
-| aws-managed-node-group-bottlerocket         | Create EKS Managed Node Group with Amazon Bottlerocket. | [managed-node-group-bottlerocket](managed-node-group-bottlerocket/README.md) |
-| cluster-autoscaler         | Install Cluster Autoscaler on EKS Cluster. | [cluster-autoscaler](cluster-autoscaler/README.md) |
+|:-------------|:-------------|:----------------|
+| self-managed-node-group         | Creates EKS Self Managed Node Groups with Amazon Linux 2 (AL2). | [self-managed-node-group-al2](../eks-compute/self-managed-node-group-al2/README.md) |
+| aws-managed-node-group         | Create EKS AWS Managed Node Groups with Amazon Linux 2023 (AL2023). | [managed-node-group-al2023](../eks-compute/managed-node-group-al2023/README.md) |
+| fargate-profile         | Create EKS Fargate Profile. | [fargate-profile](../eks-compute/fargate-profile/README.md) |
+| karpenter-controller         | Install Karpenter Controller - karpenter-crd and karpenter using Helm chart. | [karpenter-controller](../eks-compute/karpenter-controller/README.md) |
+| karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group-al2023](../eks-compute/karpenter-node-group-al2023/README.md) |
+| karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool-al2023](../eks-compute/karpenter-node-pool-al2023/README.md) |
+| aws-managed-node-group-bottlerocket         | Create EKS Managed Node Group with Amazon Bottlerocket. | [managed-node-group-bottlerocket](../eks-compute/managed-node-group-bottlerocket/README.md) |
+| cluster-autoscaler         | Install Cluster Autoscaler on EKS Cluster. | [cluster-autoscaler](../eks-compute/cluster-autoscaler/README.md) |

@@ -115,6 +115,12 @@ variable "coredns_addon_version" {
   default     = "v1.13.2-eksbuild.4"
 }
 
+variable "matrix_server_version" {
+  description = "The version of the metrics-server addon to use for the EKS cluster"
+  type        = string
+  default     = "v0.8.1-eksbuild.6"
+}
+
 variable "tags" {
   type        = map(string)
   description = "A map of tags to assign to all resources."

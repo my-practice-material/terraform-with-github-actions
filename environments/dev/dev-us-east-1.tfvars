@@ -1,7 +1,5 @@
 # Terraform Variables for Dev Environment in US East 1 Region
 
-bucket_name = "study-terraform-bucket"
-
 # VPC Configuration
 vpc_name = "study-vpc"
 vpc_cidr = "10.10.0.0/20"
@@ -23,6 +21,7 @@ cluster_admin_role_arn = "arn:aws:iam::360496493654:role/aws-reserved/sso.amazon
 
 vpc_cni_addon_version = "v1.21.1-eksbuild.1" # check latest
 coredns_addon_version = "v1.12.1-eksbuild.2" # check latest
+matrix_server_version = "v0.8.1-eksbuild.6" # check latest
 karpenter_controller_node_name = "karpenter-controller-node"
 karpenter_worker_node_name = "karpenter-worker-node"
 
