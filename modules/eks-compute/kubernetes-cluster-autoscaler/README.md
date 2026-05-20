@@ -25,7 +25,8 @@ It provisions the required IAM role, IAM policy, service account, and installs t
 ## 📦 Chart References
 
 - **GitHub Repository**: [kubernetes/autoscaler – cluster-autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)  
-- **Helm Chart Repository**: [Cluster Autoscaler Helm Chart](https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler)  
+- **Helm Chart Repository**: [Cluster Autoscaler Helm Chart](https://kubernetes.github.io/autoscaler)
+  - `chart` = `cluster-autoscaler`
 
 > In this module, the chart is downloaded locally (`${path.module}/helm`), but you can also reference the upstream chart repository.
 
