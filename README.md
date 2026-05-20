@@ -47,7 +47,7 @@ This repository demonstrates how to:
 
 <table>
   <thead>
-    <tr bgcolor="#D3D3D3">
+    <tr bgcolor="#2418c9ff">
       <th>Feature</th>
       <th>Description</th>
       <th>Status</th>
