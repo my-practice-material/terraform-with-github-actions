@@ -19,7 +19,7 @@ This repository demonstrates how to:
 
 ---
 
-## 🚀 AWS EKS Cluster Options.
+## 🎯 AWS EKS Cluster Options.
 
 | Mode            | Who Manages Node | Best Use Case                  | Pros                                | Cons                          |
 |:-----------------|:------------------|:--------------------------------|:-------------------------------------|:-------------------------------|
@@ -34,7 +34,7 @@ This repository demonstrates how to:
 
 | Module Name | Description | Documentation |
 |:-------------|:-------------|:----------------|
-| VPC         | Creates VPC, Subnets, and Networking Resources | [VPC Docs](modules/vpc/README.md) |
+| VPC         | Creates VPC, Subnets, and Networking Resources | [VPC](modules/vpc/README.md) |
 | EKS Standard  | Provisions an EKS cluster | [EKS Standard](modules/eks-standard/README.md) |
 | EKS Auto-Mode | Provisions an EKS cluster | [EKS Auto-Mode](modules/eks-auto-mode/README.md) |
 
