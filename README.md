@@ -40,3 +40,34 @@ This repository demonstrates how to:
 | EKS Auto-Mode | Provisions an EKS cluster | [EKS Auto-Mode](modules/eks-auto-mode/README.md) |
 
 ---
+
+
+
+<h2>Project Overview</h2>
+
+<table>
+  <thead>
+    <tr bgcolor="#D3D3D3">
+      <th>Feature</th>
+      <th>Description</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Authentication</td>
+      <td>User login with JWT</td>
+      <td>Completed</td>
+    </tr>
+    <tr>
+      <td>API</td>
+      <td>REST endpoints for data</td>
+      <td>In Progress</td>
+    </tr>
+    <tr>
+      <td>UI</td>
+      <td>Responsive dashboard</td>
+      <td>Planned</td>
+    </tr>
+  </tbody>
+</table>
