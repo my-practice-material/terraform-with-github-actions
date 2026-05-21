@@ -58,4 +58,4 @@ module "create_eks" {
 | karpenter-node-group         | Create AWS Managed Node Group to install Karpenter controller resources. | [karpenter-node-group-al2023](../eks-compute/karpenter-node-group-al2023/README.md) |
 | karpenter-node-pool         | Create Karpenter NodeClass & NodePool. | [karpenter-node-pool-al2023](../eks-compute/karpenter-node-pool-al2023/README.md) |
 | aws-managed-node-group-bottlerocket         | Create EKS Managed Node Group with Amazon Bottlerocket. | [managed-node-group-bottlerocket](../eks-compute/managed-node-group-bottlerocket/README.md) |
-| cluster-autoscaler         | Install Cluster Autoscaler on EKS Cluster. | [cluster-autoscaler](../eks-compute/cluster-autoscaler/README.md) |
+| cluster-autoscaler         | Install Cluster Autoscaler on EKS Cluster. | [cluster-autoscaler](../eks-compute/kubernetes-cluster-autoscaler/README.md) |
