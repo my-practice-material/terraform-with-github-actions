@@ -1,46 +1,47 @@
-# Terraform AWS EKS Karpenter Node Pool Module
+# Terraform AWS EKS Managed Node Group Module (AL2023 AMI)
 
-This module provisions a **Karpenter Node Pool** for Amazon EKS using Terraform.  
-It creates the required IAM roles, instance profiles, security groups, launch template, and EKS node group resources to support Karpenter-managed workloads.
+This module provisions a **Managed Node Group** in Amazon EKS using Terraform.  
+It creates the required IAM roles, instance profile, security groups, launch template, and node group resources with **Amazon Linux 2023 (AL2023) AMI**.
 
 ---
 
-## 🌟 What is a Karpenter Node Pool?
+## 🌟 Overview
 
-- **[Karpenter](ca://s?q=AWS_Karpenter_overview)** is an open-source Kubernetes node lifecycle manager.  
-- While the Karpenter controller handles dynamic scaling, a **Node Pool** provides the baseline worker nodes and configuration for workloads.  
-- This module sets up the IAM and networking prerequisites so that Karpenter can provision and manage nodes efficiently.
+- **[Managed Node Group](ca://s?q=AWS_EKS_managed_node_group_overview)**: Simplifies worker node lifecycle management by letting EKS handle provisioning and updates.  
+- **[Amazon Linux 2023 AMI](ca://s?q=Amazon_Linux_2023_AMI_for_EKS)**: Provides a secure, optimized, and modern OS for Kubernetes workloads.  
+- **[Terraform Module](ca://s?q=Terraform_EKS_managed_node_group_module)**: Automates IAM, networking, and launch template setup for consistent deployments.
 
 ---
 
 ## 🚀 Features
-- **[IAM Role](ca://s?q=Terraform_EKS_node_instance_role)** for worker nodes with required policies:
+
+- **IAM Role** for worker nodes with attached policies:
   - `AmazonEKSWorkerNodePolicy`
   - `AmazonEKS_CNI_Policy`
   - `AmazonEC2ContainerRegistryReadOnly`
   - `AmazonSSMManagedInstanceCore`
-- **[Instance Profile](ca://s?q=Terraform_EKS_instance_profile)** to associate IAM role with EC2 nodes.
-- **[Security Group](ca://s?q=Terraform_EKS_node_security_group)** for node communication and control plane access.
-- **[Ingress/Egress Rules](ca://s?q=Terraform_EKS_security_group_rules)** to allow:
+- **Instance Profile** to associate IAM role with EC2 nodes.  
+- **Security Group** for node communication and control plane access.  
+- **Ingress/Egress Rules** to allow:
   - Node-to-node communication
   - Control plane to node communication (ports 443, 1025–65535)
   - Node egress to internet
-- **[Launch Template](ca://s?q=Terraform_EKS_launch_template)** with:
-  - Custom AMI from SSM
+- **Launch Template** with:
+  - AL2023 AMI from SSM Parameter Store
   - Instance type (`t3.small` by default)
   - User data for kubelet/node initialization
   - Block device mapping (20 GB gp3 volume)
-- **[EKS Node Group](ca://s?q=Terraform_EKS_node_group)** with:
+- **Managed Node Group** with:
   - Scaling configuration (min, max, desired size)
-  - Taints for Karpenter scheduling
   - Subnet placement
-- **[CoreDNS Addon](ca://s?q=Terraform_EKS_coredns_addon)** configured with tolerations and affinity for Karpenter nodes.
+  - Update configuration (rolling updates)
 
 ---
 
 ## 📂 Module Components
-- `main.tf` → IAM roles, instance profile, security groups, launch template, node group, addons
-- `variables.tf` → Input variables (cluster name, subnets, desired capacity, etc.)
+
+- `main.tf` → IAM roles, instance profile, security groups, launch template, node group  
+- `variables.tf` → Input variables (cluster name, subnets, desired capacity, etc.)  
 - `outputs.tf` → Exported values (role ARN, node group name, security group ID)
 
 ---
@@ -48,16 +49,19 @@ It creates the required IAM roles, instance profiles, security groups, launch te
 ## ⚙️ Usage Example
 
 ```hcl
-module "create_karpenter_node_pool_al2023" {
-   source                      = "./modules/eks-compute/karpenter-node-pool-al2023"
-   cluster_name                = var.eks_cluster_name
-   certificate_authority_data  = module.create_eks_standard_cluster.certificate_authority_data
-   cluster_endpoint            = module.create_eks_standard_cluster.cluster_endpoint
-   service_ipv4_cidr           = module.create_eks_standard_cluster.service_ipv4_cidr
-   vpc_id                      = module.create_vpc.vpc_id
-   cluster_security_group_id   = module.create_eks_standard_cluster.cluster_security_group_id
-   karpenter_worker_node_name  = var.karpenter_worker_node_name
-   karpenter_controller_node_name = var.karpenter_controller_node_name
-   karpenter_node_role_arn     = module.create_karpenter_node_group_al2023.karpenter_node_group_iam_role_arn
-   depends_on                  = [ module.deploy-karpenter-controller ]
+module "create_managed_node_group_al2023" {
+    source = "./modules/eks-compute/karpenter-node-group-al2023"
+    vpc_id = module.create_vpc.vpc_id
+    worker_node_name = var.worker_node_name
+    private_subnet_ids = module.create_vpc.private_subnets
+    public_subnet_ids = module.create_vpc.public_subnets
+    cluster_security_group_id = module.create_eks_standard_cluster.cluster_security_group_id
+    cluster_name = var.eks_cluster_name
+    node_group_desired_capacity = var.node_group_desired_capacity
+    node_group_max_size = var.node_group_max_size
+    node_group_min_size = var.node_group_min_size
+    certificate_authority_data = module.create_eks_standard_cluster.certificate_authority_data
+    cluster_endpoint = module.create_eks_standard_cluster.cluster_endpoint
+    service_ipv4_cidr = module.create_eks_standard_cluster.service_ipv4_cidr
+    depends_on = [ module.create_eks_standard_cluster, module.install_vpc_cni ]
 }
