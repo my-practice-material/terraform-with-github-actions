@@ -38,11 +38,15 @@ It creates the required IAM roles, instance profile, security groups, launch tem
 
 ---
 
-## 📂 Module Components
+## 📂 Important Note
 
-- `main.tf` → IAM roles, instance profile, security groups, launch template, node group  
-- `variables.tf` → Input variables (cluster name, subnets, desired capacity, etc.)  
-- `outputs.tf` → Exported values (role ARN, node group name, security group ID)
+- `KMS`: If EC2 having encryption using custom kms key then we need to add `AWSServiceRoleForAutoScaling` and node IAM role into policy to allow below actions.
+  "Action": [
+    "kms:Encrypt",
+    "kms:Decrypt",
+    "kms:GenerateDataKey*",
+    "kms:DescribeKey"
+  ],
 
 ---
 
