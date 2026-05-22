@@ -40,7 +40,7 @@ It creates the required IAM roles, instance profile, security groups, launch tem
 
 ## 📂 Important Note
 
-- `KMS`: If EC2 having encryption using custom kms key then we need to add `AWSServiceRoleForAutoScaling` and node IAM role into policy to allow below actions.
+- `KMS`: If EC2 having encryption using custom kms key then we need to add `AWSServiceRoleForAutoScaling` and `node_instance_role` role into policy to allow below actions.
 ```json  
   "Action": [
     "kms:Encrypt",
