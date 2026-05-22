@@ -12,3 +12,20 @@ resource "aws_eks_access_policy_association" "admin" {
     type = "cluster"
   }
 }
+
+resource "aws_eks_access_entry" "github_actions_entry" {
+  cluster_name = var.cluster_name
+  principal_arn = aws_iam_role.github_actions_oidc.arn
+  type          = "STANDARD"
+  depends_on = [ aws_iam_role.github_actions_oidc ]
+}
+
+resource "aws_eks_access_policy_association" "github_actions_assoc" {
+  cluster_name = var.cluster_name
+  principal_arn = aws_iam_role.github_actions_oidc.arn
+  policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  access_scope {
+    type = "cluster"
+  }
+  depends_on = [ aws_iam_role.github_actions_oidc ]
+}
