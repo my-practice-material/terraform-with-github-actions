@@ -25,6 +25,8 @@ matrix_server_version = "v0.8.1-eksbuild.6" # check latest
 karpenter_controller_node_name = "karpenter-controller-node"
 karpenter_worker_node_name = "karpenter-worker-node"
 
+ecr_repo_name = "study/study-ecr-repo"
+
 # Mandatory tags for all resources
 tags = {
   "environment" = "dev"

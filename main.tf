@@ -189,3 +189,8 @@ module "deploy_cluster_autoscaler" {
 #   tags = var.tags
 #   depends_on = [ module.create_managed_node_group_al2023 ]
 # }
+
+module "create_ecr_repo" {
+  source = "./modules/ecr-repository"
+  ecr_repo_name = var.ecr_repo_name
+}

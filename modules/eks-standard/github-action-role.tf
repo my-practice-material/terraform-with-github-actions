@@ -45,6 +45,20 @@ resource "aws_iam_policy" "github_actions_role_policy" {
           "eks:AccessKubernetesApi"
         ]
         Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:CompleteLayerUpload",
+          "ecr:InitiateLayerUpload",
+          "ecr:PutImage",
+          "ecr:UploadLayerPart",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages"
+        ]
+        Resource = "*"
       }
     ]
   })

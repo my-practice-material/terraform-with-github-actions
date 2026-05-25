@@ -27,3 +27,8 @@ output "aws_iam_openid_connect_provider_arn" {
   value = aws_iam_openid_connect_provider.eks.arn
   description = "ARN of the IAM OIDC provider for the EKS cluster"
 }
+
+output "oidc_role_arn" {
+  value = aws_iam_role.github_actions_oidc.arn
+  description = "OIDC role for Github Actions Deployments."
+}
