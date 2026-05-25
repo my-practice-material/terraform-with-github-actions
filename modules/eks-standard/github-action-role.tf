@@ -28,6 +28,7 @@ resource "aws_iam_role" "github_actions_oidc" {
       }
     ]
   })
+  depends_on = [ aws_eks_cluster.study-eks-cluster ]
 }
 
 resource "aws_iam_policy" "github_actions_role_policy" {
@@ -67,4 +68,5 @@ resource "aws_iam_policy" "github_actions_role_policy" {
 resource "aws_iam_role_policy_attachment" "eks_admin_attach" {
   role       = aws_iam_role.github_actions_oidc.name
   policy_arn = aws_iam_policy.github_actions_role_policy.arn
+  depends_on = [ aws_iam_policy.github_actions_role_policy, aws_iam_role.github_actions_oidc ]
 }
