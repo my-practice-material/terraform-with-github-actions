@@ -25,3 +25,4 @@ Amazon EKS **add-ons** are managed integrations that simplify the installation a
 | amazon-ebs-csi-driver        | Install Amazon EBS CSI Driver which help to create EBS volumes. | [amazon-ebs-csi-driver ](amazon-ebs-csi-driver/README.md) |
 | amazon-efs-csi-driver        | Install Amazon EFS CSI Driver which help to create EFS volume. | [amazon-efs-csi-driver ](amazon-efs-csi-driver/README.md) |
 | k8s-ingress-controller        | Install Kubernetes Ingress Controller which help to create Ingress load balancers. | [ingress-controller ](ingress-controller/README.md) |
+| dynatrace operator       | Install Dynatrace operator and oneagent for K8S monitoring. | [dynatrace-operator ](dynatrace-operator/README.md) |
