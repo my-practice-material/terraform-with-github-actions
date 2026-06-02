@@ -10,7 +10,7 @@ output "aws_iam_role" {
   value = module.create_eks_standard_cluster.oidc_role_arn
 }
 
-output "ecr_repo_name" {
-  value = module.create_ecr_repo.ecr_repo_name
-  description= "ECR private repository name."
-}
+# output "ecr_repo_name" {
+#   value = module.create_ecr_repo.ecr_repo_name
+#   description= "ECR private repository name."
+# }

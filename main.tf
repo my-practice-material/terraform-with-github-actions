@@ -173,13 +173,13 @@ module "deploy_cluster_autoscaler" {
 # }
 
 # Deploy Amazon EBS CSI Driver for EKS cluster.
-# module "install_ebs_csi_driver" {
-#   source = "./modules/eks-addons/amazon-ebs-csi-driver"
-#   cluster_name = var.eks_cluster_name
-#   aws_iam_openid_connect_provider_arn = module.create_eks_standard_cluster.aws_iam_openid_connect_provider_arn
-#   tags = var.tags
-#   depends_on = [ module.create_managed_node_group_al2023 ]
-# }
+module "install_ebs_csi_driver" {
+  source = "./modules/eks-addons/amazon-ebs-csi-driver"
+  cluster_name = var.eks_cluster_name
+  aws_iam_openid_connect_provider_arn = module.create_eks_standard_cluster.aws_iam_openid_connect_provider_arn
+  tags = var.tags
+  depends_on = [ module.create_managed_node_group_al2023 ]
+}
 
 # Deploy Amazon EFS CSI Driver for EKS cluster.
 # module "install_efs_csi_driver" {
@@ -190,7 +190,7 @@ module "deploy_cluster_autoscaler" {
 #   depends_on = [ module.create_managed_node_group_al2023 ]
 # }
 
-module "create_ecr_repo" {
-  source = "./modules/ecr-repository"
-  ecr_repo_name = var.ecr_repo_name
-}
+# module "create_ecr_repo" {
+#   source = "./modules/ecr-repository"
+#   ecr_repo_name = var.ecr_repo_name
+# }
