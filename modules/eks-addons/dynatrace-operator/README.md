@@ -74,15 +74,6 @@ kubectl apply -f dynakube.yaml
 
 ---
 
-## ✅ Notes
-- Adjust observability options based on your monitoring needs.
-
-- If AppArmor is not supported on your EKS nodes, remove or comment out the /sys/kernel/security/apparmor hostPath in dynakube.yaml.
-
-- Security Posture Management (KSPM) is optional; disable if you only need performance monitoring.
-
----
-
 ### ⚙️ Troubleshooting
 
 - **Persistent Volume Claim (PVC) not bound**  
@@ -92,3 +83,15 @@ kubectl apply -f dynakube.yaml
 - **KSPM AppArmor hostPath error**  
   Because Security Posture Management (KSPM) was enabled and Amazon Linux 2023 (AL-2023) nodes do not have the `/sys/kernel/security/apparmor` path, the Node Config Collector pod failed to start.  
   ➡️ Solution: Comment out the AppArmor hostPath mount in the `dynakube.yaml` to allow the collector to run without AppArmor checks.
+
+- **Resource configuration too high**  
+  Initially, the resource requests and limits in the `dynakube.yaml` were set very high compared to the node’s minimum configuration, causing scheduling issues.  
+  ➡️ Solution: Adjust the resource configuration (CPU and memory requests/limits) in the `dynakube.yaml` to match the available capacity of your EKS nodes.
+
+
+## ✅ Notes
+- Adjust observability options based on your monitoring needs.
+
+- If AppArmor is not supported on your EKS nodes, remove or comment out the /sys/kernel/security/apparmor hostPath in dynakube.yaml.
+
+- Security Posture Management (KSPM) is optional; disable if you only need performance monitoring.
