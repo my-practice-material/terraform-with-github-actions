@@ -14,10 +14,10 @@ This repository documents the steps to install and configure the **Dynatrace Ope
 ## 📝 Setup Steps
 
 ### 1. Log in to Dynatrace
+![Add Cluster](images/eks-dynatrace-1.png)
 - Navigate to **Kubernetes** in the Dynatrace UI.
 - Click **Add cluster**.
 - Choose **EKS**.
-![Add Cluster](images/eks-dynatrace-1.png)
 
 ---
 
